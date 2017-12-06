@@ -1,24 +1,10 @@
-def part_a(jumps):
+def exit_count(jumps, incrementor):
     count = 0
     i = 0
     while True:
         try:
             move = jumps[i]
-            jumps[i] += 1
-            i += move
-            count += 1
-        except IndexError:
-            return count
-
-
-def part_b(jumps):
-    count = 0
-    i = 0
-    while True:
-        try:
-            move = jumps[i]
-            increment = -1 if move >= 3 else 1
-            jumps[i] += increment
+            jumps[i] += incrementor(move)
             i += move
             count += 1
         except IndexError:
@@ -29,8 +15,8 @@ def main():
     with open('five.txt', 'r') as f:
         jumps = [int(x.strip()) for x in f.readlines()]
 
-    print('Part A: {}'.format(part_a(jumps[:])))
-    print('Part B: {}'.format(part_b(jumps[:])))
+    print('Part A: {}'.format(exit_count(jumps[:], lambda x: 1)))
+    print('Part B: {}'.format(exit_count(jumps[:], lambda x: -1 if x >= 3 else 1)))
 
 
 if __name__ == '__main__':
