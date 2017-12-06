@@ -1,7 +1,3 @@
-def repr(memory):
-    return '[' + ','.join([str(x) for x in memory]) + ']'
-
-
 def reallocate(memory):
     n = len(memory)
     blocks = max(memory)
@@ -18,10 +14,10 @@ def redistribute(memory):
     count = 0
     seen = set()
     while True:
-        seen.add(repr(memory))
+        seen.add(memory.__str__())
         memory = reallocate(memory)
         count += 1
-        if repr(memory) in seen:
+        if memory.__str__() in seen:
             return count, memory
 
 
