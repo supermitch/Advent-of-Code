@@ -16,23 +16,26 @@ input = [
     '260,352,190,877,118,77,1065,1105,1085,1032,71,87,851,56,1161,667',
     '1763,464,182,1932,1209,640,545,931,1979,197,1774,174,2074,1800,939,161',
 ]
-
 from itertools import permutations
 
-checksum = 0
-divsum = 0
-for string in input:
-    values = [int(x) for x in string.split(',')]
 
-    # Part A
-    checksum += max(values) - min(values)
+def main():
+    checksum = 0
+    divsum = 0
+    for string in input:
+        values = [int(x) for x in string.split(',')]
 
-    # Part B
-    all_pairs = permutations(values, 2)
-    for a, b in all_pairs:  # Is only one evenly divisible pair per row
-        if a % b == 0:
-            divsum += a // b
-            break
+        checksum += max(values) - min(values)  # Part A
 
-print('Checksum: {}'.format(checksum))
-print('Divsum: {}'.format(divsum))
+        all_pairs = permutations(values, 2)
+        for a, b in all_pairs:  # Is only one evenly divisible pair per row
+            if a % b == 0:
+                divsum += a // b  # Part B
+                break
+
+    print('Part A: {}'.format(checksum))
+    print('Part B: {}'.format(divsum))
+
+
+if __name__ == '__main__':
+    main()

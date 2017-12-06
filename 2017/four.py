@@ -1,4 +1,4 @@
-with open('four.txt', 'r') as f:
+with open('four.input', 'r') as f:
 
     a, b = 0, 0
     for line in f:
@@ -11,5 +11,5 @@ with open('four.txt', 'r') as f:
         if len(set(ordered)) == len(words):
             b += 1
 
-    print('4.1: {}'.format(a))
-    print('4.2: {}'.format(b))
+    print('Part A: {}'.format(a))
+    print('Part B: {}'.format(b))
