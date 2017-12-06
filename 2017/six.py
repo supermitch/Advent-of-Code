@@ -2,21 +2,24 @@ def repr(memory):
     return '[' + ','.join([str(x) for x in memory]) + ']'
 
 
-def redistribute(memory):
+def reallocate(memory):
     n = len(memory)
+    blocks = max(memory)
+    i = memory.index(blocks)  # Returns first high bank
+    memory[i] = 0  # Reset current bank
+    while blocks > 0:
+        memory[(i + 1) % n] += 1
+        blocks -= 1
+        i += 1
+    return memory
+
+
+def redistribute(memory):
     count = 0
     seen = set()
     while True:
         seen.add(repr(memory))
-        high = max(memory)
-        i = memory.index(high)  # Returns first high bank
-        blocks = high
-        memory[i] = 0  # Reset current bank
-        j = i
-        while blocks > 0:
-            memory[(j + 1) % n] += 1
-            blocks -= 1
-            j += 1
+        memory = reallocate(memory)
         count += 1
         if repr(memory) in seen:
             return count, memory
@@ -27,6 +30,7 @@ def main():
 
     count_a, state = redistribute(memory)
     print('Part A: {}'.format(count_a))
+
     count_b, _ = redistribute(state)
     print('Part B: {}'.format(count_b))
 
