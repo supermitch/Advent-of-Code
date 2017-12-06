@@ -9,22 +9,19 @@ def find_square(n):
 
 
 def manhattan(n):
-    if n == 1:
-        return 0
     size = find_square(n)  # Which size square we on, e.g. 1, 3, 5, 7
     ring = (size + 1) / 2  # which ring on we on, e.g. 1, 2, 3, 4
 
     x_start = max(ring - 1, 0)  # How far right
     y_start = -1 * max(ring - 2, 0)  # How far down
 
-    inner_total = (size - 2) ** 2
-    total = size ** 2
-    start = inner_total + 1
+    start = max(size - 2, 0) ** 2 + 1  # Start val for this ring
+    end = size ** 2  # End val
 
     steps = n - start  # Along this ring, from start
 
-    right = size - 2  # Length of right size to top right corner
-    top = left = size - 1  # Length of other sides
+    right = max(size - 2, 1)  # Length of right size to top right corner
+    top = left = max(size - 1, 1)  # Length of other sides
 
     if steps <= right:  # Right
         x = x_start
@@ -38,7 +35,7 @@ def manhattan(n):
         x = x_start - top
         y = y_start + right - dist
     else:  # Bottom
-        x = x_start - (total - n)
+        x = x_start - (end - n)
         y = y_start - 1
 
     return abs(x) + abs(y)
