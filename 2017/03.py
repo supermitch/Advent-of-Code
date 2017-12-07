@@ -43,17 +43,13 @@ def manhattan(n):
 
 
 # Part B:
-def sum_neighbours(arr, coord):
+def sum_neighbours(arr, x, y):
     """ Sum 9 nearest neighbours. """
-    x, y = coord
     total = 0
     for dx in range(-1, 2):
         for dy in range(-1, 2):
-            if (dx, dy) != (0, 0):
-                try:
-                    total += arr[(x + dx, y + dy)]
-                except KeyError:
-                    continue
+            if (dx, dy) != (0, 0) and (x + dx, y + dy) in arr:
+                total += arr[(x + dx, y + dy)]
     return total
 
 
@@ -61,7 +57,7 @@ def spiral_offsets():
     """ Generate spiral step (dx, dy) values. """
     size = 3
     while True:
-        yield 1, 0   # right
+        yield 1, 0  # initial right
         for _ in range(size - 2):
             yield 0, 1  # up
         for _ in range(size - 1):
@@ -80,7 +76,7 @@ def spiral_series(n):
     while True:
         dx, dy = next(offsets)
         x, y = x + dx, y + dy
-        new_value = sum_neighbours(arr, (x, y))
+        new_value = sum_neighbours(arr, *(x, y))
         if new_value > n:
             return new_value
         arr[(x, y)] = new_value
