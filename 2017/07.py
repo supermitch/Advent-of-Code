@@ -2,72 +2,71 @@ def parse_line(line):
     parts = line.strip().split()
     name = parts[0]
     weight = int(parts[1][1:-1])
-    raw_holding = parts[3:]
-    holding = []
-    for h in raw_holding:
-        holding.append(h.strip(','))
-    return (name, weight, holding)
+    total = None  # Total weight including branches
+    raw_branches = parts[3:]
+    branches = []
+    for b in raw_branches:
+        branches.append(b.strip(','))
+    return {'n': name, 'w': weight, 'b': branches, 't': total}
 
 
 # Part A
 def find_base(data):
-    all_nodes = set([x[0] for x in data])
-    all_branches = set([h for x in data for h in x[2]])
-    return all_nodes.difference(all_branches)
+    all_nodes = set([n for n in data.keys()])
+    all_branches = set([branch for node in data.values() for branch in node['b']])
+    return all_nodes.difference(all_branches).pop()
 
 
 # Part B
 def find_children(nodes, n):
-    #  TODO: Actually finish this one
-    branches = nodes[n]['h']
+    branches = nodes[n]['b']
     if not branches:
         nodes[n]['t'] = nodes[n]['w']  # Total weight
-        return nodes[n]['w']  # Weight
-
+        return nodes[n]['n'], nodes[n]['w']  # Weight
     weights = []
-    if n == 'marnqj':
-        print(branches)
     for node in branches:
         weights.append(find_children(nodes, node))
-    if n == 'marnqj':
-        print(weights)
-        print(nodes[n]['w'])
-    if len(set(weights)) > 1:
-        print(n, weights)
-    weight = sum(weights)
+    if len(set([x[1] for x in weights])) > 1:
+        print('{} is unbalanced: {}'.format(n, weights))
+    weight = sum([x[1] for x in weights])
     nodes[n]['t'] = nodes[n]['w'] + weight
-    return nodes[n]['t']
+    return nodes[n]['n'], nodes[n]['t']
 
 
-def print_children(nodes, n, depth):
-    branches = nodes[n]['h']
-    if branches:
-        depth += 1
-        print('{}{}: {}'.format('\t' * depth, n, branches))
-        for branch in branches:
-            print_children(nodes, branch, depth)
+def print_branch_weights(nodes, n):
+    branches = nodes[n]['b']
+    if not branches:
+        nodes[n]['t'] = nodes[n]['w']  # Total weight
+        return nodes[n]['n'], nodes[n]['w']  # Weight
+    weights = []
+    for node in branches:
+        weights.append(find_children(nodes, node))
+    print('{} branches: {}'.format(n, weights))
+    weight = sum([x[1] for x in weights])
+    nodes[n]['t'] = nodes[n]['w'] + weight
+    return nodes[n]['n'], nodes[n]['t']
 
 
-def part_b(data):
-    nodes = {x[0]: {'n': x[0], 'w': x[1], 'h': x[2], 't': None} for x in data}
+def part_b(data, base):
+    answer = find_children(data, base)
 
-    base = 'dgoocsw'
-    print_children(nodes, base, -1)
+    print_branch_weights(data, 'marnqj')
+    print('marnqj weight: {}'.format(data['marnqj']['w']))
 
-    answer = find_children(nodes, base)
     return answer
 
 
 def main():
-    data = []
+    data = {}
     with open('07.input', 'r') as f:
         for line in f:
-            data.append(parse_line(line))
+            node = parse_line(line)
+            data[node['n']] = node  # Keyed by name
 
-    base = find_base(data[:])
+    base = find_base(data.copy())
     print('Part A: {}'.format(base))
 
-    result_b = part_b(data[:])
+    result_b = part_b(data.copy(), base)
     print('Part B: {}'.format(result_b))
 
 
