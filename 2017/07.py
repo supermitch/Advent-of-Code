@@ -1,57 +1,66 @@
+class Node():
+    def __init__(self, name, weight, branches):
+        self.name = name
+        self.weight = weight
+        self.branches = branches
+        self.total = None  # Total weight including children
+
+
 def parse_line(line):
     parts = line.strip().split()
     name = parts[0]
     weight = int(parts[1][1:-1])
-    total = None  # Total weight including branches
-    raw_branches = parts[3:]
-    branches = []
-    for b in raw_branches:
-        branches.append(b.strip(','))
-    return {'n': name, 'w': weight, 'b': branches, 't': total}
+    branches = [b.strip(',') for b in parts[3:]]
+    return Node(name, weight, branches)
 
 
 # Part A
 def find_base(data):
     all_nodes = set([n for n in data.keys()])
-    all_branches = set([branch for node in data.values() for branch in node['b']])
+    all_branches = set([b for node in data.values() for b in node.branches])
     return all_nodes.difference(all_branches).pop()
 
 
 # Part B
-def find_children(nodes, n):
-    branches = nodes[n]['b']
-    if not branches:
-        nodes[n]['t'] = nodes[n]['w']  # Total weight
-        return nodes[n]['n'], nodes[n]['w']  # Weight
-    weights = []
-    for node in branches:
-        weights.append(find_children(nodes, node))
-    if len(set([x[1] for x in weights])) > 1:
-        print('{} is unbalanced: {}'.format(n, weights))
-    weight = sum([x[1] for x in weights])
-    nodes[n]['t'] = nodes[n]['w'] + weight
-    return nodes[n]['n'], nodes[n]['t']
+def unbalanced(iter):
+    return len(set(iter)) != 1
+
+
+def find_unbalanced(nodes, n):
+    curr = nodes[n]
+    if not curr.branches:
+        curr.total = curr.weight  # Own weight
+        return curr.total
+
+    weights = [find_unbalanced(nodes, child) for child in curr.branches]
+
+    if unbalanced(weights):
+        children = zip(curr.branches, weights)
+        print('{} is unbalanced: {}'.format(curr.name, list(children)))
+
+    curr.total = curr.weight + sum(weights)
+    return curr.total
 
 
 def print_branch_weights(nodes, n):
-    branches = nodes[n]['b']
-    if not branches:
-        nodes[n]['t'] = nodes[n]['w']  # Total weight
-        return nodes[n]['n'], nodes[n]['w']  # Weight
-    weights = []
-    for node in branches:
-        weights.append(find_children(nodes, node))
+    curr = nodes[n]
+    if not curr.branches:
+        curr.total = curr.weight  # Total weight
+        return curr.weight  # Weight
+
+    weights = [find_unbalanced(nodes, node) for node in curr.branches]
+
     print('{} branches: {}'.format(n, weights))
-    weight = sum([x[1] for x in weights])
-    nodes[n]['t'] = nodes[n]['w'] + weight
-    return nodes[n]['n'], nodes[n]['t']
+
+    curr.total = curr.weight + sum(weights)
+    return curr.total
 
 
 def part_b(data, base):
-    answer = find_children(data, base)
+    answer = find_unbalanced(data, base)
 
     print_branch_weights(data, 'marnqj')
-    print('marnqj weight: {}'.format(data['marnqj']['w']))
+    print('marnqj weight: {}'.format(data['marnqj'].weight))
 
     return answer
 
@@ -61,7 +70,7 @@ def main():
     with open('07.input', 'r') as f:
         for line in f:
             node = parse_line(line)
-            data[node['n']] = node  # Keyed by name
+            data[node.name] = node
 
     base = find_base(data.copy())
     print('Part A: {}'.format(base))
