@@ -1,10 +1,10 @@
 import operator
 
-class Op():
-    def __init__(self, reg_a, op, val, reg_b, comp, comp_val):
+class Operation():
+    def __init__(self, reg_a, op, op_val, _, reg_b, comp, comp_val):
         self.reg_a = reg_a
         self.op = operator.add if op == 'inc' else operator.sub
-        self.val = int(val)
+        self.op_val = int(op_val)
         self.reg_b = reg_b
         self.comp = {
             '>': operator.gt,
@@ -17,31 +17,25 @@ class Op():
         self.comp_val = int(comp_val)
 
 
-def parse_line(line):
-    p = line.strip().split()
-    return Op(p[0], p[1], p[2], p[4], p[5], p[6])
-
-
-def init_registers(registers, reg_a, reg_b):
-    if reg_a not in registers:
-        registers[reg_a] = 0
-    if reg_b not in registers:
-        registers[reg_b] = 0
+def init_registers(registers, a, b):
+    if a not in registers:
+        registers[a] = 0
+    if b not in registers:
+        registers[b] = 0
 
 
 def main():
     registers = {}
     true_max = 0
-
     with open('08.input', 'r') as f:
         for line in f:
-            op = parse_line(line)
+            op = Operation(*line.strip().split())
 
             init_registers(registers, op.reg_a, op.reg_b)
 
             if op.comp(registers[op.reg_b], op.comp_val):
-                registers[op.reg_a] = op.op(registers[op.reg_a], op.val)
-                true_max = max(max(registers.values()), true_max)
+                registers[op.reg_a] = op.op(registers[op.reg_a], op.op_val)
+                true_max = max(registers[op.reg_a], true_max)
 
     final_max = max(registers.values())
 
