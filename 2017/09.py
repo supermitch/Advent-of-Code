@@ -2,37 +2,37 @@ def main():
     with open('09.input', 'r') as f:
         data = f.read().strip()
 
-    count = 0
-    garbage = 0
-    group = 0
+    garbage_stack = 0
+    group_stack = 0
     ignore = False
+    group_count = 0
     garbage_count = 0
     for c in data:
         if ignore:
             ignore = False
-            continue
+            continue  # Skip this char
 
-        if garbage:
+        if garbage_stack:
             if c == '>':
-                garbage -= 1
+                garbage_stack -= 1  # Pop
             elif c == '!':
                 ignore = True
             else:
-                garbage_count += 1
+                garbage_count += 1  # Found garbage char
         else:
             if c == '<':
-                garbage += 1
+                garbage_stack += 1
             elif c == '{':
-                group += 1
-            elif c == '}' and group:
-                count += group
-                group -= 1
+                group_stack += 1
+            elif c == '}' and group_stack:
+                group_count += group_stack
+                group_stack -= 1  # Pop
             elif c == '!':
                 ignore = True
             else:
                 print('Bad c: <{}>'.format(c))
 
-    print('Part A: {} - No. of closed groups'.format(count))
+    print('Part A: {} - No. of closed groups'.format(group_count))
     print('Part B: {} - No. of garbage chars'.format(garbage_count))
 
 
