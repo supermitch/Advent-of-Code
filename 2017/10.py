@@ -1,12 +1,14 @@
-def part_a():
-    pass
+from functools import reduce
+from operator import xor
 
-def run_round(pos, skip, arr, input):
-    for l in input:
-        end = pos + l
-        if end > len(arr):
-            suf_len = len(arr) - pos
-            end = end % len(arr)
+#Part A
+def twist_round(arr, lengths, pos=0, skip=0):
+    n = len(arr)
+    for length in lengths:
+        end = pos + length
+        if end > n:
+            suf_len = n - pos
+            end = end % n
             pre_len = end
 
             suffix = arr[pos:]
@@ -19,75 +21,59 @@ def run_round(pos, skip, arr, input):
             sub.reverse()
             arr = arr[:pos] + sub + arr[end:]
 
-        pos += l + skip
-        pos = pos % len(arr)
+        pos = (pos + length + skip) % n
         skip += 1
     return arr, pos, skip
 
-def main(arr, input):
+
+# Part B
+def to_hex(ints):
+    return ['{:02x}'.format(x) for x in ints]
 
 
+def make_hash(string_input):
+    input = [ord(str(c)) for c in string_input]
+    length = input + [17, 31, 73, 47, 23]  # Add hardcoded suffix
+
+    sparse = list(range(0, 256))
     pos = 0
     skip = 0
+    for _ in range(64):
+        sparse, pos, skip = twist_round(sparse, length, pos, skip)
 
-    out, pos, skip = run_round(pos, skip, arr, input)
+    dense = []
+    for i in range(16):
+        b = sparse[i * 16:(i + 1) * 16]  # Chunk by 16
+        dense.append(reduce(xor, b))  # Reduce each chunk
 
-    print('Part A: {} - '.format(arr[0] * arr[1]))
+    hex_hash = to_hex(dense)
+    return ''.join(hex_hash)
 
 
-def xor(l):
-    a = l[0]
-    for b in l[1:]:
-        a = a ^ b
-    return a
+def main():
+    # Part A:
+    arr = list(range(5))
+    input = [3, 4, 1, 5]
+    arr, _, _ = twist_round(arr, input)
+    assert arr[0] * arr[1] == 12
 
-def to_hex(res):
-    h = [hex(x)[2:] for x in res]
-    return h
+    arr = list(range(0, 256))
+    input = [46, 41, 212, 83, 1, 255, 157, 65, 139, 52, 39, 254, 2, 86, 0, 204]
+    arr, _, _ = twist_round(arr, input)
+    print('Part A: {} - Single round knot twisting'.format(arr[0] * arr[1]))
+
+    # Part B:
+    assert reduce(xor, [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22]) == 64
+    assert to_hex([64, 7, 255]) == ['40', '07', 'ff']
+
+    assert make_hash('AoC 2017') == '33efeb34ea91902bb2f59c9920caa6cd'
+    assert make_hash('1,2,3') == '3efbe78a8d82f29979031a4aa0b16a9d'
+
+    input = [46, 41, 212, 83, 1, 255, 157, 65, 139, 52, 39, 254, 2, 86, 0, 204]
+    string_input = ','.join(str(x) for x in input)
+    knot_hash = make_hash(string_input)
+    print('Part B: {} - Knot Hash'.format(knot_hash))
+
 
 if __name__ == '__main__':
-    arr = list(range(5))
-    input = [3,4,1,5]
-    main(arr, input)
-
-    arr = list(range(0,256))
-    input = [46,41,212,83,1,255,157,65,139,52,39,254,2,86,0,204]
-    main(arr, input)
-
-
-    def max_hash(input):
-        input = [ord(str(l)) for l in input]
-        print(input)
-        length = input + [17,31,73,47,23]
-        print(length)
-
-        arr = list(range(0,256))
-        pos = 0
-        skip = 0
-        sparse = arr[:]
-        for _ in range(64):
-            sparse, pos, skip = run_round(pos, skip, sparse, length)
-        print('Sparse hash:', sparse)
-        print('Length: {}'.format(len(sparse)))
-
-        dense = []
-        for i in range(16):
-            b = sparse[i * 16 :(i + 1) * 16]
-            a = xor(b)
-            dense.append(a)
-        print('dense hash: ', dense)
-        print('Length: {}'.format(len(dense)))
-
-        h = to_hex(dense)
-        padded = []
-        for i in h:
-            if len(i) < 2:
-                padded.append('0' + i)
-            else:
-                padded.append(i)
-        return ''.join(padded)
-
-    print(max_hash('AoC 2017'))
-    print(max_hash('1,2,3'))
-    print(max_hash('46,41,212,83,1,255,157,65,139,52,39,254,2,86,0,204'))
-    #print('Part B: {} - '.format())
+    main()
