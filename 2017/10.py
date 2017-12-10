@@ -28,7 +28,7 @@ def twist_round(arr, lengths, pos=0, skip=0):
 
 # Part B
 def to_hex(ints):
-    return ['{:02x}'.format(x) for x in ints]
+    return [format(x, '02x') for x in ints]
 
 
 def make_hash(string_input):
