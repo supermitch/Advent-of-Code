@@ -5,26 +5,15 @@ from operator import xor
 def twist_round(arr, lengths, pos=0, skip=0):
     n = len(arr)
     for length in lengths:
-        end = pos + length
-        if end > n:
-            suf_len = n - pos
-            end = end % n
-            pre_len = end
+        extract = [arr[(pos + i) % n] for i in range(length)]
+        extract.reverse()
 
-            suffix = arr[pos:]
-            prefix = arr[:end]
-            sub = suffix + prefix
-            sub.reverse()
-            arr = sub[suf_len:] + arr[end:pos] + sub[:suf_len]
-        else:
-            sub = arr[pos:end]
-            sub.reverse()
-            arr = arr[:pos] + sub + arr[end:]
+        for i in range(length):
+            arr[(pos + i) % n] = extract[i]  # Write back into arr
 
         pos = (pos + length + skip) % n
         skip += 1
     return arr, pos, skip
-
 
 # Part B
 def to_hex(ints):
@@ -52,15 +41,12 @@ def make_hash(string_input):
 
 def main():
     # Part A:
-    arr = list(range(5))
-    input = [3, 4, 1, 5]
-    arr, _, _ = twist_round(arr, input)
-    assert arr[0] * arr[1] == 12
+    result, _, _ = twist_round(list(range(5)), [3, 4, 1, 5])
+    assert result[0] * result[1] == 12
 
-    arr = list(range(0, 256))
     input = [46, 41, 212, 83, 1, 255, 157, 65, 139, 52, 39, 254, 2, 86, 0, 204]
-    arr, _, _ = twist_round(arr, input)
-    print('Part A: {} - Single round knot twisting'.format(arr[0] * arr[1]))
+    result, _, _ = twist_round(list(range(0, 256)), input)
+    print('Part A: {} - Single round knot twisting'.format(result[0] * result[1]))
 
     # Part B:
     assert reduce(xor, [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22]) == 64
