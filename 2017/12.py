@@ -6,60 +6,46 @@ class Node:
         else:
             self.branches = [Node(x) for x in branches]
 
-    def __repr__(self):
-        return f'{self.name}'
+
+def find_pipes(ref, node, piped):
+    if any(n.name == ref for n in node.branches) or node.name in piped:
+        return [n.name for n in node.branches]
+    else:
+        return []
+
+
+def build_group(ref, nodes):
+    """ Build a group from a reference node. """
+    piped = set([ref])
+    last_size = 0
+    size = 1
+    while size > last_size:  # Scan list until piped stops growing
+        for n in nodes.values():
+            [piped.add(x) for x in find_pipes(ref, n, piped)]
+        last_size = size
+        size = len(piped)
+    return piped
+
 
 def main():
     with open('12.input', 'r') as f:
-        data = []
-        for line in f:
-            data.append([int(x) for x in line.split(', ')])
+        data = [[int(x) for x in line.split(',')] for line in f]
 
-    nodes = {}
-    for d in data:
-        try:
-            nodes[d[0]] = Node(d[0], d[1:])
-        except TypeError:
-            nodes[d[0]] = Node(d[0])
-    print(nodes[0].name, nodes[0].branches)
+    nodes = {d[0]:Node(d[0], d[1:]) for d in data}
 
+    # Part A
+    part_a = len(build_group(0, nodes))
+    print(f'Part A: {part_a} - Size of the 0 piped group')
 
-    def find_zero(ref, node, piped):
-        new_piped = []
-        if any(n.name == ref for n in node.branches) or node.name in piped:
-            new_piped = [n.name for n in node.branches]
-        return new_piped
-
-    piped = set([0])
-    last_size = 0
-    size = 1
-    while size > last_size:
-        for n in nodes.values():
-            [piped.add(x) for x in find_zero(0, n, piped)]
-        last_size = size
-        size = len(piped)
-        print(f'Group size: {size}')
-
-    groups = set([':'.join(str(x) for x in piped)])
+    # Part B
+    groups = set()
     for n in nodes.values():
         known = [int(x) for s in groups for x in s.split(':')]
-        if n.name in known:
-            continue
-        else:
-            piped = set([n.name])
-            last_size = 0
-            size = 1
-            while size > last_size:
-                for no in nodes.values():
-                    [piped.add(x) for x in find_zero(n.name, no, piped)]
-                last_size = size
-                size = len(piped)
-                print(f'Group size: {size}')
+        if n.name not in known:
+            piped = build_group(n.name, nodes)
             groups.add(':'.join(str(x) for x in piped))
-    print(len(groups))
 
-    print('Part A: {} - '.format(None))
-    print('Part B: {} - '.format(None))
+    print(f'Part B: {len(groups)} - Total number of groups')
 
 
 if __name__ == '__main__':
