@@ -35,8 +35,9 @@ def main():
         if char == input_string[(i + offset) % n]:
             count_b += int(char)
 
-    print('Part A: {}'.format(count_a))
-    print('Part B: {}'.format(count_b))
+    print(f'Part A: {count_a} - ')
+    print(f'Part B: {count_b} - ')
+
 
 if __name__ == '__main__':
     main()
