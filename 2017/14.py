@@ -56,12 +56,7 @@ def knot_hash_to_bits():
 
     hashes = [make_hash(k) for k in keys]
 
-    bits = []
-    for hash in hashes:
-        bit = ''
-        for c in hash:
-            bit += to_bin(c)
-        bits.append(bit)
+    bits = [''.join([to_bin(c) for c in hash]) for hash in hashes]
     return bits
 
 
@@ -108,14 +103,15 @@ def find_groups(bits):
 
 def main():
     tic = time.clock()
-    bits = knot_hash_to_bits()
-    used = 0
-    for bit in bits:
-        used += sum(int(b) for b in bit)
+
+    bit_strings = knot_hash_to_bits()
+
+    used = sum(int(bit) for bit_string in bit_strings for bit in bit_string)
 
     print(f'Part A: {used} - Number of used memory cells')
 
-    groups = find_groups(bits)
+    groups = find_groups(bit_strings)
+
     print(f'Part B: {len(groups)} - Number of contiguous memory blocks')
 
     print('Elapsed: {:0.3f} s'.format(time.clock() - tic))
