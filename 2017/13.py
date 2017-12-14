@@ -1,30 +1,10 @@
 class Scanner:
     def __init__(self, range):
         self.range = range
-        self.pos = 0
-        self.dir = +1
+        self.len = self.range * 2 - 2
 
-    def update(self):
-        self.pos += self.dir
-        if self.pos == self.range - 1 or self.pos == 0:
-            self.dir *= -1
-
-    def reset(self):
-        self.pos = 0
-        self.dir = +1
-
-    def __repr__(self):
-        return '{}/{}'.format(self.pos, self.range - 1)
-
-
-def reset(scanners):
-    for s in scanners.values():
-        s.reset()
-
-
-def update(scanners):
-    for s in scanners.values():
-        s.update()
+    def calc_pos(self, time):
+        return time % self.len
 
 
 def main():
@@ -38,33 +18,23 @@ def main():
 
     end = max(scanners.keys())
 
-    for delay in range(20000):
-
+    delay = 0
+    while True:
         damage = 0
         caught = False
-
-        reset(scanners)
-        for _ in range(delay):
-            update(scanners)
-
         x = 0
-        print('\n')
-        print('Delay: ', delay)
         while x <= end:
             if x in scanners:
-                print('x', x, ' s')
                 s = scanners[x]
-                if s.pos == 0:  # contact
+                if s.calc_pos(x + delay) == 0:  # contact
                     damage += x * s.range
                     caught = True
-                    print('damage!')
-            else:
-                print('x', x)
-            update(scanners)
+                    break
             x += 1
         if not caught:
-            print('Found delay of {}'.format(delay))
+            print(f'Found delay of {delay} ps')
             break
+        delay += 1
 
 
 if __name__ == '__main__':
