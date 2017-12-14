@@ -1,8 +1,8 @@
 import time
-
 # Day 10 Code ===============
 from functools import reduce
 from operator import xor
+
 
 def twist_round(arr, lengths, pos=0, skip=0):
     n = len(arr)
@@ -16,6 +16,7 @@ def twist_round(arr, lengths, pos=0, skip=0):
         pos = (pos + length + skip) % n
         skip += 1
     return arr, pos, skip
+
 
 def to_hex(ints):
     return [format(x, '02x') for x in ints]
@@ -44,13 +45,8 @@ def to_bin(my_hex):  # From Stackoverflow
     return bin(int(my_hex, 16))[2:].zfill(4)
 
 
-def knot_hash_to_bits():
-    assert to_bin('0') == '0000'
-    assert to_bin('1') == '0001'
-    assert to_bin('e') == '1110'
-    assert to_bin('a0c2017') == '1010000011000010000000010111'
-
-    keys = ('stpzcrnm-'+ str(i) for i in range(128))
+def knot_hash_to_bits(input_key):
+    keys = (input_key + '-' + str(i) for i in range(128))
     hashes = (make_hash(k) for k in keys)
     return [''.join([to_bin(c) for c in hash]) for hash in hashes]
 
@@ -65,10 +61,9 @@ def find_neighbours(bits, coord, group, skip):
             continue
         if 0 <= x2 < 128 and 0 <= y2 < 128:
             if bits[x2][y2] == '1':
-                if (x2, y2) not in group:
-                    group.add((x2, y2))
-                    new, skip = find_neighbours(bits, (x2, y2), group, skip)
-                    group = group.union(set(new))
+                group.add((x2, y2))
+                new, skip = find_neighbours(bits, (x2, y2), group, skip)
+                group = group | set(new)
             else:
                 skip.add((x2, y2))
     return group, skip
@@ -85,7 +80,7 @@ def find_groups(bits):
                 skip.add((x,y))
                 continue
             group_seen = set([coord for group in groups for coord in group])
-            if (x, y) not in skip.union(group_seen):
+            if (x, y) not in skip | group_seen:
                 if bits[x][y] == '1':
                     group, skip = find_neighbours(bits, (x, y), set(), skip)
                     groups.append(group)
@@ -95,11 +90,22 @@ def find_groups(bits):
 def main():
     tic = time.clock()
 
-    bit_strings = knot_hash_to_bits()
+    input_key = 'stpzcrnm'
+
+    assert to_bin('0') == '0000'
+    assert to_bin('1') == '0001'
+    assert to_bin('e') == '1110'
+    assert to_bin('a0c2017') == '1010000011000010000000010111'
+
+    bit_strings = knot_hash_to_bits(input_key)
     used = sum(int(bit) for bit_string in bit_strings for bit in bit_string)
     print(f'Part A: {used} - No. of used memory squares')
 
     groups = find_groups(bit_strings)
+
+    import pprint
+    pprint.pprint(groups)  # Why are some groups empty?
+
     print(f'Part B: {len(groups)} - No. of contiguous memory regions')
 
     print('Elapsed: {:0.2f} s'.format(time.clock() - tic))
