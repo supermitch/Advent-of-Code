@@ -40,10 +40,8 @@ def make_hash(string_input):
     return ''.join(hex_hash)
 # ===========================
 
-def to_bin(my_hexdata):  # From Stackoverflow
-    scale = 16  # equals to hexadecimal
-    num_of_bits = 4
-    return bin(int(my_hexdata, scale))[2:].zfill(num_of_bits)
+def to_bin(my_hex):  # From Stackoverflow
+    return bin(int(my_hex, 16))[2:].zfill(4)
 
 
 def knot_hash_to_bits():
@@ -52,15 +50,12 @@ def knot_hash_to_bits():
     assert to_bin('e') == '1110'
     assert to_bin('a0c2017') == '1010000011000010000000010111'
 
-    keys = ['stpzcrnm-'+ str(i) for i in range(128)]
-
-    hashes = [make_hash(k) for k in keys]
-
-    bits = [''.join([to_bin(c) for c in hash]) for hash in hashes]
-    return bits
+    keys = ('stpzcrnm-'+ str(i) for i in range(128))
+    hashes = (make_hash(k) for k in keys)
+    return [''.join([to_bin(c) for c in hash]) for hash in hashes]
 
 
-def find_neighbours(arr, coord, group, skip):
+def find_neighbours(bits, coord, group, skip):
     x, y = coord
     offsets = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     for dx, dy in offsets:
@@ -69,10 +64,10 @@ def find_neighbours(arr, coord, group, skip):
         if (x2, y2) in skip or (x2, y2) in group:
             continue
         if 0 <= x2 < 128 and 0 <= y2 < 128:
-            if arr[x2][y2]:
+            if bits[x2][y2] == '1':
                 if (x2, y2) not in group:
                     group.add((x2, y2))
-                    new, skip = find_neighbours(arr, (x2, y2), group, skip)
+                    new, skip = find_neighbours(bits, (x2, y2), group, skip)
                     group = group.union(set(new))
             else:
                 skip.add((x2, y2))
@@ -80,23 +75,19 @@ def find_neighbours(arr, coord, group, skip):
 
 
 def find_groups(bits):
-    arr= [[int(x) for x in row] for row in bits]  # Convert to numeric array
-
-    x, y = 0, 0
     skip = set()
     groups = []
     for x in range(128):
         for y in range(128):
             if (x, y) in skip:  # Skip empty cells visited during neighbour searches
                 continue
-            if arr[x][y] == 0:  # Ignore all empty cells
+            if bits[x][y] == '0':  # Ignore all empty cells
                 skip.add((x,y))
                 continue
-            all_seen = set([coord for group in groups for coord in group])
-            all_seen = skip.union(all_seen)
-            if (x, y) not in all_seen:
-                if arr[x][y]:
-                    group, skip = find_neighbours(arr, (x, y), set(), skip)
+            group_seen = set([coord for group in groups for coord in group])
+            if (x, y) not in skip.union(group_seen):
+                if bits[x][y] == '1':
+                    group, skip = find_neighbours(bits, (x, y), set(), skip)
                     groups.append(group)
     return groups
 
@@ -105,16 +96,13 @@ def main():
     tic = time.clock()
 
     bit_strings = knot_hash_to_bits()
-
     used = sum(int(bit) for bit_string in bit_strings for bit in bit_string)
-
-    print(f'Part A: {used} - Number of used memory cells')
+    print(f'Part A: {used} - No. of used memory squares')
 
     groups = find_groups(bit_strings)
+    print(f'Part B: {len(groups)} - No. of contiguous memory regions')
 
-    print(f'Part B: {len(groups)} - Number of contiguous memory blocks')
-
-    print('Elapsed: {:0.3f} s'.format(time.clock() - tic))
+    print('Elapsed: {:0.2f} s'.format(time.clock() - tic))
 
 if __name__ == '__main__':
     main()
