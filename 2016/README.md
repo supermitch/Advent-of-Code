@@ -2,6 +2,10 @@
 
 http://adventofcode.com/2016
 
+* [Python solutions](/Python)
+
+## Problems
+
 1. No Time for a Taxicab
 2. Bathroom Security
 3. Squares With Three Sides

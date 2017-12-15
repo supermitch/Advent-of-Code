@@ -2,6 +2,10 @@
 
 http://adventofcode.com/2017
 
+* [Python solutions](/Python)
+
+## Problems
+
 1. Inverse Captcha
 2. Corruption Checksum
 3. Spiral Memory
@@ -26,4 +30,5 @@ http://adventofcode.com/2017
 22. 
 23. 
 24. 
-25.
+25. 
+
