@@ -2,7 +2,7 @@
 
 http://adventofcode.com/2017
 
-* [Python solutions](/Python)
+* [Python solutions](Python)
 
 ## Problems
 
