@@ -2,6 +2,7 @@
 
 [Advent of Code](http://adventofcode.com/) solutions, by me.
 
+**Python**
 * Scripts were written in Python 3.6 with a liberal dose of f-strings
 * Run simply with `python <day>.py`
 
