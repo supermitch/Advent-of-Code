@@ -2,7 +2,7 @@
 
 http://adventofcode.com/2017
 
-* [All Python solutions](Python)
+* 🐍 [All Python solutions](Python)
 
 ## Problems
 
@@ -21,7 +21,7 @@ http://adventofcode.com/2017
 13. [Packet Scanners](http://adventofcode.com/2017/day/13) - [🐍](Python/13.py)
 14. [Disk Defragmentation](http://adventofcode.com/2017/day/14) - [🐍](Python/14.py)
 15. [Dueling Generators](http://adventofcode.com/2017/day/15) - [🐍](Python/15.py)
-16. 
+16. [Permutation Promenade](http://adventofcode.com/2017/day/16) - [🐍](Python/16.py)
 17. 
 18. 
 19. 
@@ -31,4 +31,3 @@ http://adventofcode.com/2017
 23. 
 24. 
 25. 
-
