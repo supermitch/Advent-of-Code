@@ -22,7 +22,7 @@ http://adventofcode.com/2017
 14. [Disk Defragmentation](http://adventofcode.com/2017/day/14) - [🐍](Python/14.py)
 15. [Dueling Generators](http://adventofcode.com/2017/day/15) - [🐍](Python/15.py)
 16. [Permutation Promenade](http://adventofcode.com/2017/day/16) - [🐍](Python/16.py)
-17. 
+17. [Spinlock](http://adventofcode.com/2017/day/17) - [🐍](Python/17.py)
 18. 
 19. 
 20. 
