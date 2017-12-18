@@ -63,10 +63,8 @@ def main():
     pos_b, count_b, msg_b = 0, 0, []
 
     while True:
-        if pos_a <= len(data):
-            pos_a, msg_a, count_a, msg_b, regs_a = run_commands('Prog A', regs_a, data, pos_a, msg_a, msg_b, count_a)
-        if pos_b <= len(data):
-            pos_b, msg_b, count_b, msg_a, regs_b = run_commands('Prog B', regs_b, data, pos_b, msg_b, msg_a, count_b)
+        pos_a, msg_a, count_a, msg_b, regs_a = run_commands('Prog A', regs_a, data, pos_a, msg_a, msg_b, count_a)
+        pos_b, msg_b, count_b, msg_a, regs_b = run_commands('Prog B', regs_b, data, pos_b, msg_b, msg_a, count_b)
 
         if pos_a >= len(data) and pos_b >= len(data):  # Ran out of instructions
             break
