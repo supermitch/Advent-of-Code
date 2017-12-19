@@ -15,6 +15,36 @@ def get_val(regs, val):
     return val if isinstance(val, int) else regs[val]
 
 
+def part_a(data):
+    registers = defaultdict(int)
+    skip = None
+    i = 0
+    while True:
+        if i >= len(data) or i < 0:
+            break
+        d, r, v = data[i]
+
+        if d == 'set':
+            registers[r] = get_val(registers, v)
+        elif d == 'add':
+            registers[r] += get_val(registers, v)
+        elif d == 'mul':
+            registers[r] *= get_val(registers, v)
+        elif d == 'mod':
+            registers[r] %= get_val(registers, v)
+        elif d == 'snd':
+            sound = registers[r]
+        elif d == 'rcv':
+            if registers[r] > 0:
+                return sound
+        elif d == 'jgz':
+            if get_val(registers, r) > 0:  # r could be an int!
+                skip = get_val(registers, v)
+
+        i += 1 if skip is None else skip
+        skip = None
+
+
 def run_commands(name, registers, data, i, sent, received, send_count):
     skip = None
     while True:
@@ -53,6 +83,10 @@ def main():
         for line in f:
             data.append(parse_line(line))
 
+
+    recovered = part_a(data)
+    print('Part A: {} - First recovered frequency'.format(recovered))
+
     regs_a = defaultdict(int)
     regs_a['p'] = 0
 
@@ -62,7 +96,7 @@ def main():
     pos_a, count_a, msg_a = 0, 0, []
     pos_b, count_b, msg_b = 0, 0, []
 
-    while True:
+    while True:  # Run "concurrent" programs, each writing to a message queue
         pos_a, msg_a, count_a, msg_b, regs_a = run_commands('Prog A', regs_a, data, pos_a, msg_a, msg_b, count_a)
         pos_b, msg_b, count_b, msg_a, regs_b = run_commands('Prog B', regs_b, data, pos_b, msg_b, msg_a, count_b)
 
