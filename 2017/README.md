@@ -24,10 +24,10 @@ http://adventofcode.com/2017
 16. [Permutation Promenade](http://adventofcode.com/2017/day/16) - [🐍](Python/16.py)
 17. [Spinlock](http://adventofcode.com/2017/day/17) - [🐍](Python/17.py)
 18. [Duet](http://adventofcode.com/2017/day/18) - [🐍](Python/18.py)
-19. [TBD](http://adventofcode.com/2017/day/19) - [🐍](Python/19.py)
-20. [TBD](http://adventofcode.com/2017/day/20) - [🐍](Python/20.py)
-21. [TBD](http://adventofcode.com/2017/day/21) - [🐍](Python/21.py)
-22. [TBD](http://adventofcode.com/2017/day/22) - [🐍](Python/22.py)
-23. [TBD](http://adventofcode.com/2017/day/23) - [🐍](Python/23.py)
-24. [TBD](http://adventofcode.com/2017/day/24) - [🐍](Python/24.py)
-25. [TBD](http://adventofcode.com/2017/day/25) - [🐍](Python/25.py)
+19. [A Series of Tubes](http://adventofcode.com/2017/day/19) - [🐍](Python/19.py)
+20. TBD
+21. TBD
+22. TBD
+23. TBD
+24. TBD
+25. TBD
