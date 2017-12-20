@@ -7,12 +7,10 @@ def parse_line(line):
 
 
 def add(v1, v2):
-    """ Add two 3D vectors. """
     return v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2]
 
 
 def sum_abs(p):
-    """ Get absolute sum of a 3D vector. """
     return abs(p[0]) + abs(p[1]) + abs(p[2])
 
 
