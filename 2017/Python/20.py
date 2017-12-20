@@ -1,5 +1,5 @@
 def parse_line(line):
-    parts = line.split(',')
+    parts = line.split(',')  # Input was modified
     p = [int(x) for x in parts[:3]]
     v = [int(x) for x in parts[3:6]]
     a = [int(x) for x in parts[6:]]
@@ -7,10 +7,8 @@ def parse_line(line):
 
 
 def add(v1, v2):
-    """ Sum two 3D vectors. """
-    x1, y1, z1 = v1
-    x2, y2, z2 = v2
-    return x1 + x2, y1 + y2, z1 + z2
+    """ Add two 3D vectors. """
+    return v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2]
 
 
 def sum_abs(p):
@@ -62,10 +60,8 @@ def main():
     with open('20.input', 'r') as f:
         data = [parse_line(line.strip()) for line in f]
 
-    nearest = part_a(data[:])
-    print('Part A: {} - Particle nearest to (0, 0)'.format(nearest))
-    remaining = part_b(data[:])
-    print('Part B: {} - No. of particles remaining after collisions'.format(remaining))
+    print('Part A: {} - Particle nearest to (0, 0)'.format(part_a(data[:])))
+    print('Part B: {} - No. of surviving particles'.format(part_b(data[:])))
 
 
 if __name__ == '__main__':
