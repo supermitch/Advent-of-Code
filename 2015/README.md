@@ -2,13 +2,10 @@
 
 http://adventofcode.com/2015
 
-* [All Python solutions](Python)
-* [All D solutions](D)
-
 ## Problems
 
-1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [Python](Python/01/01.py)
-2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2)
+1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [Python](01/one.py), [D](01/one.d)
+2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2) - [Python](02/two.py)
 3. [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/2015/day/3)
 4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4)
 5. [Doesn't He Have Intern-Elves For This?](http://adventofcode.com/2015/day/5)
