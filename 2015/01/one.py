@@ -13,7 +13,7 @@ def part_b(line):
 
 
 def main():
-    with open('01.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         line = f.read().strip()
 
     print('Part A: {} - Final floor'.format(part_a(line)))
