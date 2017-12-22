@@ -34,7 +34,7 @@ def part_b(rects):
 
 
 def main():
-    with open('02.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         rects = [[int(d) for d in line.strip().split('x')] for line in f]
 
     print('Part A: {} - Total square feet of wrapping paper'.format(part_a(rects)))
