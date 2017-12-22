@@ -7,7 +7,7 @@ http://adventofcode.com/2015
 
 ## Problems
 
-1. [Not Quite Lisp](http://adventofcode.com/2015/day/1)
+1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [Python](Python/01/01.py)
 2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2)
 3. [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/2015/day/3)
 4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4)
