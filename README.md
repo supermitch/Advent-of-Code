@@ -8,6 +8,6 @@
 
 ## Solutions
 
-* [2017](2017/README.md)
-* [2016](2016/README.md)
+* [2017](2017/README.md) - [Python](2017/Python)
+* [2016](2016/README.md) - [Python](2016/Python)
 * [2015](2015/README.md)
