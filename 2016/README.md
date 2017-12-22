@@ -3,7 +3,7 @@
 http://adventofcode.com/2016
 
 * [🐍 All Python solutions](Python)
-* [⚙ All Rust solutions](Rust)
+* [⚙  All Rust solutions](Rust)
 
 ## Problems
 
