@@ -1,36 +1,25 @@
-def area(rect):
-    x, y, z = rect
-    return 2 * x * z + 2 * x * y + 2 * z * y
+def area(x, y, z):
+    return (2 * x * z) + (2 * x * y) + (2 * z * y)
 
 
-def slack(rect):
-    x, y, z = rect
+def slack(x, y, z):
     return min([x * z, x * y, z * y])
 
 
 def part_a(rects):
-    total = 0
-    for rect in rects:
-        total += area(rect) + slack(rect)
-    return total
+    return sum(area(*r) + slack(*r) for r in rects)
 
 
-def wrap(rect):
-    x, y, z = rect
-    perimeters = [2 * x + 2 * z, 2 * x + 2 * y, 2 * z + 2 * y]
-    return min(perimeters)
+def wrap(x, y, z):
+    return min([2 * x + 2 * z, 2 * x + 2 * y, 2 * z + 2 * y])
 
 
-def bow(rect):
-    x, y, z = rect
+def bow(x, y, z):
     return x * y * z
 
 
 def part_b(rects):
-    total = 0
-    for rect in rects:
-        total += wrap(rect) + bow(rect)
-    return total
+    return sum(wrap(*r) + bow(*r) for r in rects)
 
 
 def main():
