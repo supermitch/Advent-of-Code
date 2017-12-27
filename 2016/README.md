@@ -2,9 +2,6 @@
 
 http://adventofcode.com/2016
 
-* [All Python solutions](Python)
-* [All Rust solutions](Rust)
-
 ## Problems
 
 1. [No Time for a Taxicab](http://adventofcode.com/2016/day/1)
