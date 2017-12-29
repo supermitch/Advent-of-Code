@@ -13,47 +13,41 @@ def parse(line):
     return (action, ul, br)
 
 
+def part_a(actions):
+    arr = defaultdict(int)
+    for act, ul, br in actions:
+        for x in range(ul[0], br[0] + 1):
+            for y in range(ul[1], br[1] + 1):
+                if act == 'toggle':
+                    arr[(x, y)] = 0 if arr[(x, y)] == 1 else 1
+                else:
+                    arr[(x, y)] = 0 if act == 'off' else 1
+
+    return sum(cell for cell in arr.values())
+
+
+def part_b(actions):
+    arr = defaultdict(int)
+    for act, ul, br in actions:
+        for x in range(ul[0], br[0] + 1):
+            for y in range(ul[1], br[1] + 1):
+                if act == 'off':
+                    arr[(x, y)] = max(0, arr[(x, y)] - 1)
+                else:
+                    arr[(x, y)] += 1 if act == 'on' else 2
+
+    return sum(cell for cell in arr.values())
+
+
 def main():
-    pass
     with open('input.txt', 'r') as f:
         actions = [parse(line) for line in f]
 
-    arr = defaultdict(int)
+    lit = part_a(actions)
+    print('Part A: {} - No. of lit lights'.format(lit))
 
-    for act, ul, br in actions:
-
-        x_range = range(ul[0], br[0] + 1)
-        y_range = range(ul[1], br[1] + 1)
-
-        for x in x_range:
-            for y in y_range:
-                if act == 'on':
-                    arr[(x, y)] = 1
-                elif act == 'off':
-                    arr[(x, y)] = 0
-                else:
-                    arr[(x, y)] = 0 if arr[(x, y)] == 1 else 1
-
-    total = sum(cell for cell in arr.values())
-    print('Part A: {} - No. of lit lights'.format(total))
-
-    arr = defaultdict(int)
-    for act, ul, br in actions:
-
-        x_range = range(ul[0], br[0] + 1)
-        y_range = range(ul[1], br[1] + 1)
-
-        for x in x_range:
-            for y in y_range:
-                if act == 'on':
-                    arr[(x, y)] += 1
-                elif act == 'off':
-                    arr[(x, y)] = max(0, arr[(x, y)] - 1)
-                else:
-                    arr[(x, y)] += 2
-
-    total = sum(cell for cell in arr.values())
-    print('Part B: {} - Total brightness of dimmable lights'.format(total))
+    brightness = part_b(actions)
+    print('Part B: {} - Total brightness of dimmable lights'.format(brightness))
 
 
 if __name__ == '__main__':
