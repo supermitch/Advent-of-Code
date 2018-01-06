@@ -2,14 +2,12 @@
 
 http://adventofcode.com/2015
 
-## Problems
-
-1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [Python](01/one.py), [D](01/one.d)
-2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2) - [Python](02/two.py)
-3. [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/2015/day/3) - [Python](03/three.py)
-4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4)
-5. [Doesn't He Have Intern-Elves For This?](http://adventofcode.com/2015/day/5)
-6. [Probably a Fire Hazard](http://adventofcode.com/2015/day/6)
+1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [![Python](/images/python.png)](01/one.py), [D](01/one.d)
+2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2) - [![Python](/images/python.png)](02/two.py)
+3. [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/2015/day/3) - [![Python](/images/python.png)](03/three.py)
+4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4) - [![Python](/images/python.png)](04/four.py)
+5. [Doesn't He Have Intern-Elves For This?](http://adventofcode.com/2015/day/5) - [![Python](/images/python.png)](05/five.py)
+6. [Probably a Fire Hazard](http://adventofcode.com/2015/day/6) - [![Python](/images/python.png)](06/six.py)
 7. [Some Assembly Required](http://adventofcode.com/2015/day/7)
 8. [Matchsticks](http://adventofcode.com/2015/day/8)
 9. [All in a Single Night](http://adventofcode.com/2015/day/9)

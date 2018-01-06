@@ -15,7 +15,7 @@ def make_turn(data, x, y, dir):
 
 
 def main():
-    with open('19.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         data = [list(line.strip('\n')) for line in f]
 
     x, y = 0, data[0].index('|')  # Start position

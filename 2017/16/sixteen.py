@@ -29,7 +29,7 @@ def find_repeats(p, moves):
 
 
 def main():
-    with open('16.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         moves = []
         for move in f.readline().strip().split(','):
             type = move[0]

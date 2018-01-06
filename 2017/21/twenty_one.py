@@ -106,7 +106,7 @@ def enhance_art(rules, iterations):
 
 
 def main():
-    with open('21.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         rules = [parse_line(line.strip()) for line in f]
 
     print('Part A: {} - No. of pixels after 5 iterations'.format(enhance_art(rules, 5)))

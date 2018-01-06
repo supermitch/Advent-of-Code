@@ -45,7 +45,7 @@ def main():
     assert part_b(test.copy(), 1, 1, 100) == 26
 
     data = {}
-    with open('22.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         for x, line in enumerate(f):
             for y, char in enumerate(line.strip()):
                 data[(x, y)] = char

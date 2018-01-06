@@ -79,7 +79,7 @@ def run_commands(name, registers, data, i, sent, received, send_count):
 
 def main():
     data = []
-    with open('18.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         for line in f:
             data.append(parse_line(line))
 

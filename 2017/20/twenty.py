@@ -55,7 +55,7 @@ def part_b(data):
 
 
 def main():
-    with open('20.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         data = [parse_line(line.strip()) for line in f]
 
     print('Part A: {} - Particle nearest to (0, 0)'.format(part_a(data[:])))
