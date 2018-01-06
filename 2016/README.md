@@ -4,7 +4,7 @@ http://adventofcode.com/2016
 
 ## Problems
 
-1. [No Time for a Taxicab](http://adventofcode.com/2016/day/1)  [![Python](/images/python.png)](01/one.py)
+1. [No Time for a Taxicab](http://adventofcode.com/2016/day/1) - [![Python](/images/python.png)](01/one.py)
 2. [Bathroom Security](http://adventofcode.com/2016/day/2) - [![Python](/images/python.png)](02/two.py)
 3. [Squares With Three Sides](http://adventofcode.com/2016/day/3) - [![Python](/images/python.png)](03/three.py)
 4. [Security Through Obscurity](http://adventofcode.com/2016/day/4) - [![Python](/images/python.png)](04/four.py)
