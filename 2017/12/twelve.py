@@ -28,7 +28,7 @@ def build_group(ref, nodes):
 
 
 def main():
-    with open('12.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         data = [[int(x) for x in line.split(',')] for line in f]
 
     nodes = {d[0]:Node(d[0], d[1:]) for d in data}

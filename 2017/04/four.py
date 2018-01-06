@@ -1,4 +1,4 @@
-with open('four.input', 'r') as f:
+with open('input.txt', 'r') as f:
 
     a, b = 0, 0
     for line in f:

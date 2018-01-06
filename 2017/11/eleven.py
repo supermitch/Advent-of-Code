@@ -5,7 +5,7 @@ def calculate_distance(row, col):
 
 
 def main():
-    with open('11.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         steps = f.read().strip().split(',')
 
     deltas = {

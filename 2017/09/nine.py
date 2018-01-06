@@ -1,5 +1,5 @@
 def main():
-    with open('09.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         data = f.read().strip()
 
     garbage_stack = 0

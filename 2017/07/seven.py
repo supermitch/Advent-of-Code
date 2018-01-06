@@ -67,7 +67,7 @@ def part_b(data, base):
 
 def main():
     data = {}
-    with open('07.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         for line in f:
             node = parse_line(line)
             data[node.name] = node

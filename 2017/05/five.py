@@ -12,7 +12,7 @@ def exit_count(jumps, incrementor):
 
 
 def main():
-    with open('five.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         jumps = [int(x.strip()) for x in f.readlines()]
 
     print('Part A: {}'.format(exit_count(jumps[:], lambda x: 1)))

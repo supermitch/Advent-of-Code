@@ -27,7 +27,7 @@ def init_registers(registers, a, b):
 def main():
     registers = {}
     true_max = 0
-    with open('08.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         for line in f:
             op = Operation(*line.strip().split())
 

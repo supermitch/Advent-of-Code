@@ -9,7 +9,7 @@ class Scanner:
 
 def main():
     data = []
-    with open('13.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         for line in f:
             x, y = line.strip().split(': ')
             data.append((int(x), int(y)))  # Pos, range
