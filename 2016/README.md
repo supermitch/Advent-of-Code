@@ -4,14 +4,14 @@ http://adventofcode.com/2016
 
 ## Problems
 
-1. [No Time for a Taxicab](http://adventofcode.com/2016/day/1)
-2. [Bathroom Security](http://adventofcode.com/2016/day/2)
-3. [Squares With Three Sides](http://adventofcode.com/2016/day/3)
-4. [Security Through Obscurity](http://adventofcode.com/2016/day/4)
-5. [How About a Nice Game of Chess?](http://adventofcode.com/2016/day/5)
-6. [Signals and Noise](http://adventofcode.com/2016/day/6)
-7. [Internet Protocol Version 7](http://adventofcode.com/2016/day/7)
-8. [Two-Factor Authentication](http://adventofcode.com/2016/day/8)
+1. [No Time for a Taxicab](http://adventofcode.com/2016/day/1) - [Python](01/one.py)
+2. [Bathroom Security](http://adventofcode.com/2016/day/2) - [Python](02/two.py)
+3. [Squares With Three Sides](http://adventofcode.com/2016/day/3) - [Python](03/three.py)
+4. [Security Through Obscurity](http://adventofcode.com/2016/day/4) - [Python](04/four.py)
+5. [How About a Nice Game of Chess?](http://adventofcode.com/2016/day/5) - [Python](05/five.py)
+6. [Signals and Noise](http://adventofcode.com/2016/day/6) - [Python](06/six.py)
+7. [Internet Protocol Version 7](http://adventofcode.com/2016/day/7) - [Python](07/seven.py)
+8. [Two-Factor Authentication](http://adventofcode.com/2016/day/8) - [Python](08/eight.py)
 9. [Explosives in Cyberspace](http://adventofcode.com/2016/day/9)
 10. [Balance Bots](http://adventofcode.com/2016/day/10)
 11. [Radioisotope Thermoelectric Generators](http://adventofcode.com/2016/day/11)

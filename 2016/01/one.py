@@ -30,7 +30,7 @@ def run_steps(steps):
 def main():
     assert run_steps(['R2', 'R2', 'R2']) == (0, -2)
 
-    with open('01.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         steps = f.read().strip().split(', ')
 
     x, y = run_steps(steps)

@@ -29,7 +29,7 @@ def main():
     test = ['ULL', 'RRDDD', 'LURDL', 'UUUUD']
     assert find_code(test, keypad, (1, 1)) == '1985'
 
-    with open('02.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         lines = [line.strip() for line in f]
 
     part_a = find_code(lines, keypad, (1, 1))

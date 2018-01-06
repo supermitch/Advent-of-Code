@@ -17,7 +17,7 @@ def check_cols(sides):
 
 
 def main():
-    with open('03.input', 'r') as f:
+    with open('input.txt', 'r') as f:
         sides = [[int(s) for s in line.strip().split()] for line in f]
 
     part_a = sum(is_triangle(a, b, c) for a, b, c in sides)
