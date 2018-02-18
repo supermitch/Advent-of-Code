@@ -9,7 +9,7 @@ http://adventofcode.com/2015
 5. [Doesn't He Have Intern-Elves For This?](http://adventofcode.com/2015/day/5) - [![Python](/images/python.png)](05/five.py)
 6. [Probably a Fire Hazard](http://adventofcode.com/2015/day/6) - [![Python](/images/python.png)](06/six.py)
 7. [Some Assembly Required](http://adventofcode.com/2015/day/7)
-8. [Matchsticks](http://adventofcode.com/2015/day/8)
+8. [Matchsticks](http://adventofcode.com/2015/day/8) - [![D](/images/d.png)](08/eight.d)
 9. [All in a Single Night](http://adventofcode.com/2015/day/9)
 10. [Elves Look, Elves Say](http://adventofcode.com/2015/day/10)
 11. [Corporate Policy](http://adventofcode.com/2015/day/11)
