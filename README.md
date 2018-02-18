@@ -3,11 +3,15 @@ Advent of Code
 
 [Advent of Code](http://adventofcode.com/) solutions, by me.
 
-
 **![Python](/images/python.png) Python**
+* https://www.python.org/
 * Scripts were written in Python 3.6.3
-* Run simply with `python <day>.py`
+* Run with `python <day>.py`
 
+**![D](/images/d.png) D**
+* https://dlang.org/
+* Scripts were written in D 2.077.1
+* Run with `rdmd <day>.d`
 
 Solutions
 ---------
