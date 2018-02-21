@@ -1,3 +1,5 @@
+import std.stdio;
+
 pure bool hasLoi(immutable string text)
 {
     import std.algorithm : canFind;
@@ -18,15 +20,28 @@ pure bool hasSeq(immutable string text)
     return false;
 }
 
-pure bool hasDubs(immutable string text)
+bool hasDubs(immutable string text)
 {
+    import std.algorithm : chunkBy;
+    import std.conv : to;
+
+    string first_group = "";
+    auto chunks = chunkBy!(c => c)(text);
+    foreach (g; chunks) {
+        string val = to!string(g[1]);
+        if (val.length >= 2)
+        {
+            if (first_group == "")
+                first_group = val[0..2];
+            else if (val != first_group)
+                return true;
+        }
+    }
     return false;
 }
 
 void main()
 {
-    import std.stdio;
-    import std.conv;
 
     string input = "hepxcrrq";
 
@@ -38,6 +53,9 @@ void main()
 
     assert(hasDubs("xaabccy"));
     assert(!hasDubs("aaeiou"));
+    assert(!hasDubs("aaaiou"));
+    assert(!hasDubs("aaaiaa"));
+    assert(!hasDubs("abcdef"));
 
     writeln("Input: ", input);
 }
