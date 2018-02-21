@@ -1,14 +1,14 @@
+import std.conv : to;
 import std.stdio;
 
-pure bool hasLoi(immutable string text)
+pure bool hasLoi(immutable char[] text)
 {
     import std.algorithm : canFind;
     return text.canFind("l") || text.canFind("o") || text.canFind("i");
 }
 
-pure bool hasSeq(immutable string text)
+pure bool hasSeq(immutable char[] text)
 {
-    import std.conv : to;
     for (int i=0; i < text.length - 2; i++)
     {
         int a = to!int(text[i]);
@@ -20,10 +20,9 @@ pure bool hasSeq(immutable string text)
     return false;
 }
 
-bool hasDubs(immutable string text)
+pure bool hasDubs(immutable char[] text)
 {
     import std.algorithm : chunkBy;
-    import std.conv : to;
 
     string first_group = "";
     auto chunks = chunkBy!(c => c)(text);
@@ -40,10 +39,20 @@ bool hasDubs(immutable string text)
     return false;
 }
 
+
+int[] increment(int[] nums, ulong pos)
+{
+    nums[pos] = (nums[pos] - 97 + 1) % 26 + 97;
+    if (nums[pos] == 97)
+        nums = increment(nums, pos - 1);
+    return nums;
+}
+
 void main()
 {
 
-    string input = "hepxcrrq";
+    string partA = "hepxcrrq";
+    string partB = "hepxxyzz";
 
     assert(hasLoi("aeiou"));
     assert(!hasLoi("abcdefg"));
@@ -57,5 +66,24 @@ void main()
     assert(!hasDubs("aaaiaa"));
     assert(!hasDubs("abcdef"));
 
-    writeln("Input: ", input);
+    import std.algorithm : map;
+    import std.array;
+    auto nums = map!(a => to!int(a))(partA).array;
+    auto chars = map!(a => to!char(a))(nums).array;
+    while (true) {
+        nums = increment(nums, nums.length - 1);
+        chars = map!(a => to!char(a))(nums).array;
+        if (!hasLoi(to!string(chars)) && hasSeq(to!string(chars)) && hasDubs(to!string(chars)))
+            break;
+    }
+    writeln("Part A: ", chars);
+
+    nums = map!(a => to!int(a))(partB).array;
+    while (true) {
+        nums = increment(nums, nums.length - 1);
+        chars = map!(a => to!char(a))(nums).array;
+        if (!hasLoi(to!string(chars)) && hasSeq(to!string(chars)) && hasDubs(to!string(chars)))
+            break;
+    }
+    writeln("Part B: ", chars);
 }
