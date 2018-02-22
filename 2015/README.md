@@ -12,7 +12,7 @@ http://adventofcode.com/2015
 8. [Matchsticks](http://adventofcode.com/2015/day/8) - [![D](/images/d.png)](08/eight.d)
 9. [All in a Single Night](http://adventofcode.com/2015/day/9) - [![D](/images/d.png)](09/nine.d)
 10. [Elves Look, Elves Say](http://adventofcode.com/2015/day/10) - [![D](/images/d.png)](10/ten.d)
-11. [Corporate Policy](http://adventofcode.com/2015/day/11)
+11. [Corporate Policy](http://adventofcode.com/2015/day/11) - [![D](/images/d.png)](11/eleven.d)
 12. [JSAbacusFramework.io](http://adventofcode.com/2015/day/12)
 13. [Knights of the Dinner Table](http://adventofcode.com/2015/day/13)
 14. [Reindeer Olympics](http://adventofcode.com/2015/day/14)
