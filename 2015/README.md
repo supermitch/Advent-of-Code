@@ -13,7 +13,7 @@ http://adventofcode.com/2015
 9. [All in a Single Night](http://adventofcode.com/2015/day/9) - [![D](/images/d.png)](09/nine.d)
 10. [Elves Look, Elves Say](http://adventofcode.com/2015/day/10) - [![D](/images/d.png)](10/ten.d)
 11. [Corporate Policy](http://adventofcode.com/2015/day/11) - [![D](/images/d.png)](11/eleven.d)
-12. [JSAbacusFramework.io](http://adventofcode.com/2015/day/12)
+12. [JSAbacusFramework.io](http://adventofcode.com/2015/day/12) - [![Python](/images/python.png)](12/twelve.py)
 13. [Knights of the Dinner Table](http://adventofcode.com/2015/day/13)
 14. [Reindeer Olympics](http://adventofcode.com/2015/day/14)
 15. [Science for Hungry People](http://adventofcode.com/2015/day/15)
