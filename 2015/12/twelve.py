@@ -1,32 +1,22 @@
 import json
-import pprint
-import re
 
 
-def numeric_value(text):
-    match = re.search('[+-]?\d+(?:\.\d+)?', text)
-    return int(match.group(0)) if match else 0
-
-
-def traverse(obj, total, red_bad=True):
+def traverse(obj, total, red_is_bad):
     if isinstance(obj, str):
-        return numeric_value(obj)
+        return 0
     elif isinstance(obj, int):
         return obj
     elif isinstance(obj, list):
         for o in obj:
-            total += traverse(o, 0, red_bad)
+            total += traverse(o, 0, red_is_bad)
         return total
-    elif isinstance(obj, dict):
-        if red_bad and 'red' in obj.values():
-            return 0  # This obj & children are annulled
+    else:  # dict
+        if red_is_bad and 'red' in obj.values():
+            return 0  # This obj & children are not counted
         else:
             for k, o in obj.items():
-                total += traverse(o, 0, red_bad)
+                total += traverse(o, 0, red_is_bad)
         return total
-    else:
-        print('Unknown object type: {}'.format(obj))
-        return 0
 
 
 def main():
