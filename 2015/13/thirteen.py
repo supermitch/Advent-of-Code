@@ -27,6 +27,14 @@ def find_happiness(guests, rules):
     return total
 
 
+def find_max_happiness(guests, rules):
+    max_happy = 0
+    for perm in permutations(guests, len(guests)):
+        value = find_happiness(perm, rules)
+        max_happy = max(value, max_happy)
+    return max_happy
+
+
 def main():
     rules = {}
     with open('input.txt', 'r') as f:
@@ -36,15 +44,16 @@ def main():
 
     guests = set([k.split(':')[0] for k in rules])
 
-    max = 0
-    for i, perm in enumerate(permutations(guests, len(guests)), start=1):
-        value = find_happiness(perm, rules)
-        if value > max:
-            max = value
-        print(i, perm, value)
-
-    part_a = max
+    part_a = find_max_happiness(guests, rules)
     print('Part A: {} - Optimum happiness'.format(part_a))
+
+    # Part B
+    for guest in guests:
+        rules['Me:' + guest] = 0
+        rules[guest + ':Me'] = 0
+    guests.add('Me')
+    part_b = find_max_happiness(guests, rules)
+    print('Part B: {} - Optimum happiness inc. me'.format(part_b))
 
 
 if __name__ == '__main__':
