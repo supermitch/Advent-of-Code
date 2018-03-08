@@ -1,5 +1,4 @@
 from itertools import permutations
-import pprint
 
 
 def parse_rules(line):
