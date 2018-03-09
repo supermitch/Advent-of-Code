@@ -2,7 +2,7 @@
 
 http://adventofcode.com/2015
 
-1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [![Python](/images/python.png)](01/one.py), [![D](/images/d.png)](01/one.d)
+1. [Not Quite Lisp](http://adventofcode.com/2015/day/1) - [![Python](/images/python.png)](01/one.py) [![D](/images/d.png)](01/one.d)
 2. [I Was Told There Would Be No Math](http://adventofcode.com/2015/day/2) - [![Python](/images/python.png)](02/two.py)
 3. [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/2015/day/3) - [![Python](/images/python.png)](03/three.py)
 4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4) - [![Python](/images/python.png)](04/four.py)
