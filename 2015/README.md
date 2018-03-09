@@ -8,7 +8,7 @@ http://adventofcode.com/2015
 4. [The Ideal Stocking Stuffer](http://adventofcode.com/2015/day/4) - [![Python](/images/python.png)](04/four.py)
 5. [Doesn't He Have Intern-Elves For This?](http://adventofcode.com/2015/day/5) - [![Python](/images/python.png)](05/five.py)
 6. [Probably a Fire Hazard](http://adventofcode.com/2015/day/6) - [![Python](/images/python.png)](06/six.py)
-7. [Some Assembly Required](http://adventofcode.com/2015/day/7)
+7. [Some Assembly Required](http://adventofcode.com/2015/day/7) - [![Python](/images/python.png)](07/seven.py)
 8. [Matchsticks](http://adventofcode.com/2015/day/8) - [![D](/images/d.png)](08/eight.d)
 9. [All in a Single Night](http://adventofcode.com/2015/day/9) - [![D](/images/d.png)](09/nine.d)
 10. [Elves Look, Elves Say](http://adventofcode.com/2015/day/10) - [![D](/images/d.png)](10/ten.d)
