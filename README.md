@@ -1,7 +1,7 @@
 Advent of Code
 ==============
 
-[Advent of Code](http://adventofcode.com/) solutions, by me.
+🎄 My [Advent of Code](http://adventofcode.com/) solutions.
 
 **![Python](/images/python.png) Python**
 * https://www.python.org/
