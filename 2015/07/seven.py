@@ -1,26 +1,24 @@
-from pprint import pprint
-
-
 def parse(line):
     parts = line.split()
-
     if 'AND' in parts:
-        rule = ('and', parts[0], parts[2], parts[4])
+        return ('and', parts[0], parts[2], parts[4])
     elif 'OR' in parts:
-        rule = ('or', parts[0], parts[2], parts[4])
+        return ('or', parts[0], parts[2], parts[4])
     elif 'LSHIFT' in parts:
-        rule = ('lshift', parts[0], int(parts[2]), parts[4])  # (LSHIFT x, 2 -> f)
+        return ('lshift', parts[0], parts[2], parts[4])
     elif 'RSHIFT' in parts:
-        rule = ('rshift', parts[0], int(parts[2]), parts[4])
+        return ('rshift', parts[0], parts[2], parts[4])
     elif 'NOT' in parts:
-        rule = ('not', parts[1], parts[3])
+        return ('not', parts[1], 999, parts[3])  # 999 is unused
     else:
-        rule = ('set', parts[0], parts[2])  # Part 0 could be a wire name
-
-    return rule
+        return ('set', parts[0], 999, parts[2])
 
 
 def get(circuit, val):
+    """
+    'val' can be an int, or a str wire name.
+    A wire may not have a value yet: In that case, just return None.
+    """
     try:
         return int(val)
     except ValueError:  # Not an integer
@@ -34,49 +32,28 @@ def run_circuit(rules):
     circuit = {}
     seen = set()
     while len(seen) < len(rules):
-        pprint(circuit)
         for rule in rules:
-            if rule[0] == 'set':
-                _, i, o = rule
-                i = get(circuit, i)
-                if i is None:
-                    continue
-                circuit[o] = i
-                seen.add(rule)
-            elif rule[0] == 'not':
-                _, i, o = rule
-                i = get(circuit, i)
-                if i is None:
-                    continue
-                circuit[o] = ~ i & 0xffff
-                seen.add(rule)
-            elif rule[0] in ['lshift', 'rshift']:
-                d, i, val, o = rule
-                i = get(circuit, i)
-                val = get(circuit, val)
-                if i is None or val is None:
-                    continue
-                if d == 'lshift':
-                    circuit[o] = i << val
-                else:
-                    circuit[o] = i >> val
-                seen.add(rule)
-            elif rule[0] in ['and', 'or']:
-                d, a, b, o = rule
-                a = get(circuit, a)
-                b = get(circuit, b)
-                if a is None or b is None:
-                    continue
-                if d == 'and':
-                    circuit[o] = a & b
-                else:
-                    circuit[o] = a | b
-                seen.add(rule)
+            d, a, b, o = rule  # b is None for 'set' & 'not'
+            a = get(circuit, a)
+            b = get(circuit, b)
+            if None in (a, b):
+                continue
+
+            if d == 'set':
+                circuit[o] = a
+            elif d == 'not':  # not
+                circuit[o] = ~ a & 0xffff  # 16-bit unsigned
+            elif d in ('lshift', 'rshift'):
+                circuit[o] = a << b if d == 'lshift' else a >> b
+            elif d in ('and', 'or'):
+                circuit[o] = a & b if d == 'and' else a | b
+
+            seen.add(rule)  # Rule was completed if we didn't continue
     return circuit
 
 
 def main():
-    test = [
+    test_rules = [
         '123 -> x',
         '456 -> y',
         'x AND y -> d',
@@ -86,26 +63,24 @@ def main():
         'NOT x -> h',
         'NOT y -> i',
     ]
-    rules = [parse(l) for l in test]
-    pprint(rules)
+    rules = [parse(l) for l in test_rules]
     results = run_circuit(rules)
-    expected = {
-        'd': 72,
-        'e': 507,
-        'f': 492,
-        'g': 114,
-        'h': 65412,
-        'i': 65079,
-        'x': 123,
-        'y': 456,
-    }
+    expected = {'d': 72, 'e': 507, 'f': 492, 'g': 114, 'h': 65412, 'i': 65079, 'x': 123, 'y': 456}
     assert results == expected
 
     with open('input.txt', 'r') as f:
         rules = [parse(l) for l in f]
-    circuit = run_circuit(rules)
-    print(circuit['a'])
 
+    part_a = run_circuit(rules)['a']
+    print('Part A: {} - Value of wire a'.format(part_a))
+
+    # Part B: Let's override wire 'b' w/ the last result
+    for i in range(len(rules)):
+        if rules[i][0] == 'set' and rules[i][3] == 'b':
+            rules[i] = ('set', part_a, 999, 'b')
+
+    part_b = run_circuit(rules)['a']
+    print('Part B: {} - Value of wire a w/ new wire b'.format(part_b))
 
 
 if __name__ == '__main__':
