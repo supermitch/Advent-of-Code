@@ -1,22 +1,14 @@
-from collections import OrderedDict
+from collections import defaultdict
 import hashlib
 import re
-
+import time
 
 
 def repeats(string, n):
     """ Find the first char repeated n times in a string. """
-    match = re.search(r'(.)\1{' + str(n - 1) + '}', string)
+    pattern = r'(.)\1{2}' if n == 3 else r'(.)\1{4}'
+    match = re.search(pattern, string)
     return match.group(0) if match else ''
-
-
-def drop_old(i, potential):
-    """ Get rid of entries older than 1000 iterations ago. """
-    new = OrderedDict()
-    for k, v in potential.items():
-        if i <= (k + 1000):
-            new[k] = v
-    return new
 
 
 def do_hash(input, stretch=1):
@@ -26,38 +18,26 @@ def do_hash(input, stretch=1):
     return input
 
 
-def find_match(i, five, potential):
-    matches = []
-    for idx, (three, hash) in potential.items():
-        if three in five:
-            matches.append(idx)
-    return matches
-
-
 def generate(salt, stretch=1):
-    potential = OrderedDict()
-    found = []
-    for i in range(50000):
-        potential = drop_old(i, potential)
-
+    potential = defaultdict(list)
+    found = 0
+    i = 0
+    while True:
         input = salt + str(i)
         hash = do_hash(input, stretch)
 
-        five = repeats(hash, 5)
-        if five:
-            matches = find_match(i, five, potential)
-        else:
-            matches = []
-        if matches:
-            for idx in matches:
-                found.append((idx, potential[idx]))
-                del potential[idx]
-                if len(found) == 64:
+        five = repeats(hash, 5)  # Could be an empty string ''
+        matches = potential.pop(five[:3], [])  # Could be an empty list
+        for idx in matches:
+            if (idx + 1000) >= i:  # Only the next 1000 hashes are matched
+                found += 1
+                if found == 64:
                     return idx
 
         three = repeats(hash, 3)
         if three:
-            potential[i] = (three, hash)
+            potential[three].append(i)  # Potentials are keyed by 3 chars
+        i += 1
 
 
 def main():
@@ -72,11 +52,16 @@ def main():
     assert do_hash('abc0', 2017) == 'a107ff634856bb300138cac6568c0f24'
 
     salt = 'zpqevtbw'
+
+    tic = time.time()
     part_a = generate(salt)
     print('Part A: {} - Index for 64 hashes'.format(part_a))
+    print('Elapsed: {:0.2f} s'.format(time.time() - tic))
 
+    tic = time.time()
     part_b = generate(salt, stretch=2017)
     print('Part B: {} - Index for 64 stretched hashes'.format(part_b))
+    print('Elapsed: {:0.2f} s'.format(time.time() - tic))
 
 
 if __name__ == '__main__':
