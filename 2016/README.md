@@ -17,7 +17,7 @@ http://adventofcode.com/2016
 13. [A Maze of Twisty Little Cubicles](http://adventofcode.com/2016/day/13)
 14. [One-Time Pad](http://adventofcode.com/2016/day/14) - [![Python](/images/python.png)](14/fourteen.py)
 15. [Timing is Everything](http://adventofcode.com/2016/day/15) - [![Python](/images/python.png)](15/fifteen.py)
-16. [Dragon Checksum](http://adventofcode.com/2016/day/16)
+16. [Dragon Checksum](http://adventofcode.com/2016/day/16) - [![Python](/images/python.png)](16/sixteen.py)
 17. [Two Steps Forward](http://adventofcode.com/2016/day/17)
 18. [Like a Rogue](http://adventofcode.com/2016/day/18)
 19. [An Elephant Named Joseph](http://adventofcode.com/2016/day/19)
