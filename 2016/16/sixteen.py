@@ -41,8 +41,8 @@ def main():
     assert dragon_checksum('10000', 20) == '01100'
 
     input = '10001110011110000'
-    size = 272
 
+    size = 272
     result = dragon_checksum(input, size)
     print('Part A: {} - Checksum for size of {}'.format(result, size))
 
