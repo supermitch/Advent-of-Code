@@ -22,7 +22,7 @@ http://adventofcode.com/2016
 18. [Like a Rogue](http://adventofcode.com/2016/day/18)
 19. [An Elephant Named Joseph](http://adventofcode.com/2016/day/19)
 20. [Firewall Rules](http://adventofcode.com/2016/day/20) - [![Python](/images/python.png)](20/twenty.py)
-21. [Scrambled Letters and Hash](http://adventofcode.com/2016/day/21)
+21. [Scrambled Letters and Hash](http://adventofcode.com/2016/day/21) - [![Python](/images/python.png)](21/twenty_one.py)
 22. [Grid Computing](http://adventofcode.com/2016/day/22)
 23. [Safe Cracking](http://adventofcode.com/2016/day/23)
 24. [Air Duct Spelunking](http://adventofcode.com/2016/day/24)

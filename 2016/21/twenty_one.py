@@ -1,15 +1,14 @@
 from collections import deque
-from pprint import pprint
 
 
 def parse(line):
     parts = line.split()
     if 'move' in parts:
-        return ('mov', int(parts[2]), int(parts[5]))
+        return ('move', int(parts[2]), int(parts[5]))
     elif 'swap letter' in line:
-        return ('swp', parts[2], parts[5])
+        return ('swap', parts[2], parts[5])
     elif 'swap position' in line:
-        return ('swp_pos', int(parts[2]), int(parts[5]))
+        return ('swap_pos', int(parts[2]), int(parts[5]))
     elif 'reverse' in parts:
         return ('rev', int(parts[2]), int(parts[4]))
     elif parts[1] in ('left', 'right'):
@@ -20,46 +19,30 @@ def parse(line):
 
 def run(rule, input, reverse=False):
     act, a, b = rule
-    if act == 'mov':
-        if reverse:
-            a, b = b, a
+    d = deque(input)
+    if act == 'move':
         l = list(input)
-        char_a = l.pop(a)
+        char_a = l.pop(a)  # Can't pop(index) a deque!
         l.insert(b, char_a)
-        input = ''.join(l)
-    elif act == 'swp':
-        idx_a = input.find(a)
-        idx_b = input.find(b)
-        l = list(input)
-        l[idx_a], l[idx_b] = l[idx_b], l[idx_a]
-        input = ''.join(l)
-    elif act == 'swp_pos':
-        l = list(input)
-        l[a], l[b] = l[b], l[a]
-        input = ''.join(l)
-    elif act == 'rev':
+        d = deque(l)
+    elif act == 'swap':  # Same when reversed
+        idx_a = d.index(a)
+        idx_b = d.index(b)
+        d[idx_a], d[idx_b] = d[idx_b], d[idx_a]
+    elif act == 'swap_pos':  # Same when reversed
+        d[a], d[b] = d[b], d[a]
+    elif act == 'rev':  # Same when reversed
         b += 1  # Range is inclusive
-        mid = input[a:b]
-        input = input[:a] + mid[::-1] + input[b:]
+        l = input[:a] + input[a:b][::-1] + input[b:]
+        d = deque(l)  # Can't slice a deque!
     elif act == 'left':
-        d = deque(input)
-        if reverse:
-            d.rotate(a)
-        else:
-            d.rotate(-a)
-        input = ''.join(d)
+        d.rotate(a if reverse else -a)
     elif act == 'right':
-        d = deque(input)
-        if reverse:
-            d.rotate(-a)
-        else:
-            d.rotate(a)
-        input = ''.join(d)
+        d.rotate(-a if reverse else a)
     elif act == 'rot':
-        idx_a = input.find(a)
-        d = deque(input)
-        if reverse:
-            n = {
+        idx_a = d.index(a)
+        if reverse:  # For an 8 char string only!
+            n = {  # Each end position had only 1 possible starting point
                 0: -1,
                 1: -1,
                 2: 2,
@@ -70,11 +53,10 @@ def run(rule, input, reverse=False):
                 7: -4,
             }[idx_a]
             d.rotate(n)
-        else:
+        else:  # To scramble we can calculate result
             n = 1 + idx_a + (1 if idx_a >= 4 else 0)
             d.rotate(n)
-        input = ''.join(d)
-    return input
+    return ''.join(d)
 
 
 def main():
