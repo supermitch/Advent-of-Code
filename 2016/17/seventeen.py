@@ -1,3 +1,4 @@
+import collections
 import hashlib
 
 
@@ -6,9 +7,10 @@ class MapBoundsException(Exception):
 
 
 class Node:
-    def __init__(self, coord, path):
+    def __init__(self, coord, path, exit=False):
         self.coord = coord
         self.path = path
+        self.exit = exit
         self.children = []
 
     def add(self, child):
@@ -34,7 +36,7 @@ def move(curr, d):
         raise MapBoundsException('Cannot move off map')
 
 
-def traverse(node):
+def traverse_map(node):
     for dir in get_open_doors(node.path):
         try:
             next_pos = move(node.coord, delta(dir))
@@ -42,11 +44,21 @@ def traverse(node):
             continue
         child = Node(next_pos, node.path + dir)
         if next_pos == (3, 3):  # Our exit
-            print(node.path + dir)
+            child.exit = True  # A node could just be a dead end
         else:
-            child = traverse(child)
+            child = traverse_map(child)
         node.add(child)
     return node
+
+
+def shortest_bfs(tree):
+    queue = collections.deque([tree])
+    while queue:
+        node = queue.popleft()
+        if node.exit:
+            return node.path
+        queue.extend(node.children)
+    return 'No exit!'
 
 
 def main():
@@ -64,11 +76,15 @@ def main():
     assert get_open_doors('hijkl') == ['U', 'D', 'L']
     assert get_open_doors('hijklDR') == []
 
-    start = Node((0, 0), 'ihgpwlah')
-    tree = traverse(start)
+    salt = 'yjjvjgan'
+    start = Node((0, 0), salt)
+    tree = traverse_map(start)
+    shortest_path = shortest_bfs(tree).strip(salt)
 
-    start = Node((0, 0), 'yjjvjgan')
-    tree = traverse(start)
+    print('Part A: {} - Shortest path to exit'.format(shortest_path))
+
+    # print('Part B: {} - Length of longest path to exit'.format(len(longest_path)))
+
 
 if __name__ == '__main__':
     main()
