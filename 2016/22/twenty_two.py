@@ -1,3 +1,4 @@
+from pprint import pprint
 import re
 
 
@@ -21,8 +22,15 @@ def parse(line):
 
 def main():
     with open('input.txt', 'r') as f:
-        data = [parse(l.strip()) for l in f]
-    print(data)
+        data = [parse(l.strip()) for l in f if 'node' in l]
+
+    sorted_by_avail = sorted(data, key=lambda x: x.avail, reverse=True)
+    print('Avail:')
+    pprint(sorted_by_avail)
+
+    sorted_by_used = sorted(data, key=lambda x: x.used)
+    print('Used:')
+    pprint(sorted_by_used)
 
 
 if __name__ == '__main__':
