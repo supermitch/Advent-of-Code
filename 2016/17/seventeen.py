@@ -10,7 +10,6 @@ class Node:
     def __init__(self, coord, path, exit=False):
         self.coord = coord
         self.path = path
-        self.exit = exit
         self.children = []
 
     def add(self, child):
@@ -43,22 +42,25 @@ def traverse_map(node):
         except MapBoundsException:
             continue
         child = Node(next_pos, node.path + dir)
-        if next_pos == (3, 3):  # Our exit
-            child.exit = True  # A node could just be a dead end
-        else:
+        if next_pos != (3, 3):  # If it is not an exit we keep searching
             child = traverse_map(child)
         node.add(child)
     return node
 
 
-def shortest_bfs(tree):
+def bfs(tree):
     queue = collections.deque([tree])
+    longest = ''
+    shortest = '-' * 1000
     while queue:
         node = queue.popleft()
-        if node.exit:
-            return node.path
+        if node.coord == (3, 3):
+            if len(node.path) < len(shortest):
+                shortest = node.path
+            if len(node.path) > len(longest):
+                longest = node.path
         queue.extend(node.children)
-    return 'No exit!'
+    return shortest, longest
 
 
 def main():
@@ -79,11 +81,13 @@ def main():
     salt = 'yjjvjgan'
     start = Node((0, 0), salt)
     tree = traverse_map(start)
-    shortest_path = shortest_bfs(tree).strip(salt)
+    shortest, longest = bfs(tree)
+
+    shortest_path, longest_path = shortest.strip(salt), longest.strip(salt)
 
     print('Part A: {} - Shortest path to exit'.format(shortest_path))
 
-    # print('Part B: {} - Length of longest path to exit'.format(len(longest_path)))
+    print('Part B: {} - Length of longest path to exit'.format(len(longest_path)))
 
 
 if __name__ == '__main__':
