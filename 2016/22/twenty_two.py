@@ -1,4 +1,4 @@
-from pprint import pprint
+from itertools import groupby
 import re
 
 
@@ -11,7 +11,7 @@ class Disk:
         self.avail = total - used
 
     def __repr__(self):
-        return 'Disk({}, {}, {}/{})'.format(self.x, self.y, self.used, self.total)
+        return 'Disk({}, {}, {}/{}: {})'.format(self.x, self.y, self.used, self.total, self.avail)
 
 
 def parse(line):
@@ -20,17 +20,27 @@ def parse(line):
         return Disk(*[int(x) for x in match.groups()])
 
 
+def group_by(data, attribute):
+    keyfunc = lambda x: getattr(x, attribute)
+    sorted_by = sorted(data, key=keyfunc)
+    return {k: list(g) for k, g in groupby(sorted_by, keyfunc)}
+
+
 def main():
     with open('input.txt', 'r') as f:
         data = [parse(l.strip()) for l in f if 'node' in l]
 
-    sorted_by_avail = sorted(data, key=lambda x: x.avail, reverse=True)
-    print('Avail:')
-    pprint(sorted_by_avail)
+    use_groups = group_by(data, 'used')
+    avail_groups = group_by(data, 'avail')
 
-    sorted_by_used = sorted(data, key=lambda x: x.used)
-    print('Used:')
-    pprint(sorted_by_used)
+    pairs_count = 0
+    for used in use_groups.keys():
+        if used == 0:  # Skip this one
+            continue
+        for avail in avail_groups.keys():
+            if used <= avail:
+                pairs_count += len(use_groups[used]) * len(avail_groups[avail])
+    print('Part A: {} - Number of available pairs'.format(pairs_count))
 
 
 if __name__ == '__main__':
