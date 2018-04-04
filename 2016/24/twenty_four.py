@@ -24,21 +24,27 @@ class Map:
                 options.append((x2, y2))
         return options
 
-    def dfs(self, start, goal):
-        start = self.get_coord(start)
-        goal = self.get_coord(goal)
+    def extract_path(self, coord, path):
         route = []
-        path = {}
+        while coord:
+            route.insert(0, coord)
+            coord = path[coord]
+        return route
+
+    def dfs(self, start, goal):
+        route = []
+        path = {start: None}
         seen = set()
         queue = deque([start])
         while queue:
-            coord = queue.pop()
-            if coord == goal:
-                return path
+            coord = queue.popleft()
             seen.add(coord)
             options = self.get_options(coord)
-            path.update({x:coord for x in options if x not in seen})
-            queue.extend(x for x in options if x not in seen)
+            path.update({x: coord for x in options if x not in seen})
+            queue.extendleft(x for x in options if x not in seen)
+            if coord == goal:
+                break
+        return self.extract_path(goal, path)
 
 
 def parse_input():
@@ -55,9 +61,6 @@ def parse_input():
     return Map(coords)
 
 
-
-
-
 def main():
     map = parse_input()
 
@@ -70,15 +73,18 @@ def main():
     start = map.get_coord(0)
     targets = [map.get_coord(x) for x in goals]
 
-    print(start)
-    print(targets)
+    print('Start', start)
+    print('Targets', targets)
 
     vertices = combinations(range(1, 8), 2)
     for start, goal in vertices:
-        path = map.dfs(start, goal)
-        print(start, goal, path)
-
-
+        start_coord = map.get_coord(start)
+        goal_coord = map.get_coord(goal)
+        path = map.dfs(start_coord, goal_coord)
+        print('Start: {} <{}>, Goal: {} <{}>, Len: {}'.format(start, start_coord, goal, goal_coord, len(path)))
+        if start == 4 and goal == 5:
+            print('Path:')
+            print(path)
 
 
 
