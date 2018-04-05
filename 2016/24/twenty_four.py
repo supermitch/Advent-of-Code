@@ -41,10 +41,17 @@ class Map:
             seen.add(coord)
             options = self.get_options(coord)
             path.update({x: coord for x in options if x not in seen})
-            queue.extendleft(x for x in options if x not in seen)
+            queue.extend([x for x in options if x not in seen and x not in queue])
             if coord == goal:
                 break
         return self.extract_path(goal, path)
+
+
+def generate_routes(goals):
+    possible_routes = []
+    for p in permutations(goals, len(goals)):
+        possible_routes.append([0] + list(p))  # All routes start at 0
+    return possible_routes
 
 
 def parse_input():
@@ -68,23 +75,39 @@ def main():
     assert map.get_coord(5) == (9, 17)
 
     goals = range(1, 8)
-    perms = list(permutations(goals, len(goals)))
+    routes = generate_routes(goals)
+    print(routes)
 
     start = map.get_coord(0)
     targets = [map.get_coord(x) for x in goals]
 
-    print('Start', start)
-    print('Targets', targets)
-
-    vertices = combinations(range(1, 8), 2)
+    pairs = {}
+    vertices = combinations(range(0, 8), 2)
     for start, goal in vertices:
         start_coord = map.get_coord(start)
         goal_coord = map.get_coord(goal)
         path = map.dfs(start_coord, goal_coord)
-        print('Start: {} <{}>, Goal: {} <{}>, Len: {}'.format(start, start_coord, goal, goal_coord, len(path)))
-        if start == 4 and goal == 5:
-            print('Path:')
-            print(path)
+        print('Start: {}: {}, Goal: {}: {}, Len: {}'.format(start, start_coord, goal, goal_coord, len(path)))
+        key = tuple(sorted([start, goal]))
+        pairs[key] = path
+
+
+    cheapest_cost = float("inf")
+    cheapest_route = None
+    for route in routes:
+        total_cost = 0
+        for i in range(len(route) - 1):
+            start = route[i]
+            end = route[i + 1]
+            key = tuple(sorted([start, end]))
+            edge_path = pairs[key]
+            edge_cost = len(edge_path)
+            total_cost += edge_cost
+        if total_cost < cheapest_cost:
+            cheapest_cost = total_cost
+            cheapest_route = route
+    print(cheapest_route)
+    print(cheapest_cost)
 
 
 
