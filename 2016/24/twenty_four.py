@@ -7,11 +7,13 @@ class Map:
         self.map = map  # coordinate dictionary
 
     def get_coord(self, goal):
+        """ Look up an int inside our map, return its coordinate. """
         for coord, number in self.map.items():
             if number == goal:
                 return coord
 
     def get_options(self, coord):
+        """ Find possible movements in four directions. """
         x, y = coord
         deltas = [(1, 0), (-1, 0), (0, 1), (0, -1)]  # +x, -x, +y, -y
         options = []
@@ -22,6 +24,7 @@ class Map:
         return options
 
     def extract_path(self, coord, path):
+        """ Extract a human-readable path from a DSF route. """
         route = []
         while coord:
             route.insert(0, coord)
@@ -29,6 +32,7 @@ class Map:
         return route
 
     def dfs(self, start, goal):
+        """ Classic DFS, with early exit on finding a goal. """
         route = []
         path = {start: None}
         seen = set()
@@ -45,6 +49,10 @@ class Map:
 
 
 def generate_routes(goals, back_to_start=False):
+    """
+    All possible routes visiting every goal node, optionally returning
+    back to start (node 0), e.g. [0, 1, 5, 4, 2, 3, 6, 7, 0]
+    """
     possible_routes = []
     for p in permutations(goals, len(goals)):
         full_path = [0] + list(p) + ([0] if back_to_start else [])
@@ -53,6 +61,7 @@ def generate_routes(goals, back_to_start=False):
 
 
 def parse_input():
+    """ Turn our input into a coordinate list. Goal nodes are integers. """
     coords = {}
     with open('input.txt', 'r') as f:
         for y, line in enumerate(f):
@@ -66,32 +75,38 @@ def parse_input():
     return Map(coords)
 
 
-def generate_edges(map, nodes):
-    pairs = {}
-    vertices = combinations(nodes, 2)
+def generate_graph(map, nodes):
+    """
+    Perform DFS from every node to every other node, to get the paths, and
+    costs of those paths.
+    """
+    edge_paths = {}
+    vertices = combinations(nodes, 2)  # All possible pairs
     for start, goal in vertices:
         start_coord = map.get_coord(start)
         goal_coord = map.get_coord(goal)
         path = map.dfs(start_coord, goal_coord)
-        key = tuple(sorted([start, goal]))
-        pairs[key] = path
-    return pairs
+        key = tuple(sorted([start, goal]))  # Edges are undirected, so sort keys for easier lookup
+        edge_paths[key] = path  # The shortest path between pairs
+    return edge_paths
 
 
-def find_cheapest_route(routes, pairs):
+def find_cheapest_route(routes, edge_paths):
+    """
+    Given the edge costs, find which is the cheapest sequence in
+    every possible sequence of nodes. Return that cost.
+    """
     cheapest_cost = float("inf")
-    cheapest_route = None
-    for route in routes:
+    for route in routes:  # All possible sequences of goal nodes
         total_cost = 0
         for i in range(len(route) - 1):
-            key = tuple(sorted([route[i], route[i + 1]]))
-            edge_path = pairs[key]
+            key = tuple(sorted([route[i], route[i + 1]]))  # From one goal to the next
+            edge_path = edge_paths[key]
             edge_cost = len(edge_path) - 1  # Don't include the start node
             total_cost += edge_cost
         if total_cost < cheapest_cost:
             cheapest_cost = total_cost
-            cheapest_route = route
-    return cheapest_route, cheapest_cost
+    return cheapest_cost
 
 
 def main():
@@ -101,15 +116,15 @@ def main():
     assert map.get_coord(5) == (9, 17)
 
     nodes = range(0, 8)
-    pairs = generate_edges(map, nodes)
+    edge_paths = generate_graph(map, nodes)
 
     goals = range(1, 8)
     routes = generate_routes(goals)
-    route, cost = find_cheapest_route(routes, pairs)
+    cost = find_cheapest_route(routes, edge_paths)
     print('Part A: {} - Shortest route through all nodes'.format(cost))
 
     routes = generate_routes(goals, back_to_start=True)
-    route, cost = find_cheapest_route(routes, pairs)
+    cost = find_cheapest_route(routes, edge_paths)
     print('Part B: {} - Shortest route through all nodes & back to start'.format(cost))
 
 
