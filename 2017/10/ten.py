@@ -1,7 +1,7 @@
 from functools import reduce
 from operator import xor
 
-#Part A
+# Part A
 def twist_round(arr, lengths, pos=0, skip=0):
     n = len(arr)
     for length in lengths:
