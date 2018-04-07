@@ -19,7 +19,7 @@ http://adventofcode.com/2016
 15. [Timing is Everything](http://adventofcode.com/2016/day/15) - [![Python](/images/python.png)](15/fifteen.py)
 16. [Dragon Checksum](http://adventofcode.com/2016/day/16) - [![Python](/images/python.png)](16/sixteen.py)
 17. [Two Steps Forward](http://adventofcode.com/2016/day/17) - [![Python](/images/python.png)](17/seventeen.py)
-18. [Like a Rogue](http://adventofcode.com/2016/day/18)
+18. [Like a Rogue](http://adventofcode.com/2016/day/18) - [![Python](/images/python.png)](18/eighteen.py)
 19. [An Elephant Named Joseph](http://adventofcode.com/2016/day/19)
 20. [Firewall Rules](http://adventofcode.com/2016/day/20) - [![Python](/images/python.png)](20/twenty.py)
 21. [Scrambled Letters and Hash](http://adventofcode.com/2016/day/21) - [![Python](/images/python.png)](21/twenty_one.py)
