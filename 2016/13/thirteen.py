@@ -2,17 +2,14 @@ from collections import deque
 
 
 def get_tile(x, y, input):
-    z = (x * x) + (3 * x) + (2 * x * y) + (y) + (y * y)
-    total = z + input
-    binary = format(total, 'b')
+    """ Calculate whether a coordinate is a path '.' or a wall '#'. """
+    z = (x * x) + (3 * x) + (2 * x * y) + (y) + (y * y) + input
+    binary = format(z, 'b')
     bit_sum = sum(b == '1' for b in binary)
-    if not bit_sum % 2:
-        return '.'
-    else:
-        return '#'
+    return '#' if bit_sum % 2 else '.'
 
 
-def parse_input(map):
+def convert_string_map_to_coords(map):
     """ Turn our text map into a coordinate list. """
     coords = {}
     for y, row in enumerate(map):
@@ -60,36 +57,27 @@ def dfs(map, start, goal):
     return extract_path(goal, path)
 
 
-def limited_dfs(map, start, n):
-    """ Classic DFS, with early exit on finding a goal. """
-    route = []
-    path = {start: None}
-    seen = set()
-    queue = deque([start])
+def depth_dfs(map, start):
+    """ DFS, but record tree depth, with no early exit. """
+    seen = {}  #{coord: depth} entries
+    queue = deque([(start, 0)])  # level is depth of DFS search
     while queue:
-        coord = queue.popleft()
-        seen.add(coord)
+        coord, level = queue.popleft()
+        seen[coord] = level
         options = get_options(map, coord)
-        path.update({x: coord for x in options if x not in seen})
-        queue.extend([x for x in options if x not in seen and x not in queue])
-
-        parents = {v for k, v in path.items()}
-        if len(parents) >= n:
-            print(len(parents))
-            break
-
-    return len(parents)
+        queue.extend([(x, level + 1) for x in options if x not in seen and x not in queue])
+    return seen
 
 
 def main():
     input = 1352
 
+    map_size = 100  # Abritrary
     map = []
-    for y in range(100):
-        row = ''.join(get_tile(x, y, input) for x in range(100))
+    for y in range(map_size):
+        row = ''.join(get_tile(x, y, input) for x in range(map_size))
         map.append(row)
-
-    coords = parse_input(map)
+    coords = convert_string_map_to_coords(map)
 
     start = (1, 1)
     goal = (31, 39)
@@ -98,8 +86,9 @@ def main():
     steps = len(path) - 1
     print('Part A: {} - Number of steps to reach {}'.format(steps, goal))
 
-    no_of_positions = limited_dfs(coords, start, 50)
-    print('Part B: {} - Unique coords within 50 steps'.format(no_of_positions))
+    seen = depth_dfs(coords, start)
+    unique_coords = len([x for x, level in seen.items() if level <= 50])
+    print('Part B: {} - Unique coords within 50 steps of {}'.format(unique_coords, start))
 
 
 if __name__ == '__main__':
