@@ -20,7 +20,7 @@ http://adventofcode.com/2016
 16. [Dragon Checksum](http://adventofcode.com/2016/day/16) - [![Python](/images/python.png)](16/sixteen.py)
 17. [Two Steps Forward](http://adventofcode.com/2016/day/17) - [![Python](/images/python.png)](17/seventeen.py)
 18. [Like a Rogue](http://adventofcode.com/2016/day/18) - [![Python](/images/python.png)](18/eighteen.py)
-19. [An Elephant Named Joseph](http://adventofcode.com/2016/day/19)
+19. [An Elephant Named Joseph](http://adventofcode.com/2016/day/19) - [![Python](/images/python.png)](19/nineteen.py)
 20. [Firewall Rules](http://adventofcode.com/2016/day/20) - [![Python](/images/python.png)](20/twenty.py)
 21. [Scrambled Letters and Hash](http://adventofcode.com/2016/day/21) - [![Python](/images/python.png)](21/twenty_one.py)
 22. [Grid Computing](http://adventofcode.com/2016/day/22) - [![Python](/images/python.png)](22/twenty_two.py)
