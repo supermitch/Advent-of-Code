@@ -2,6 +2,7 @@
 
 # Python
 .python-version
+venv
 
 # C
 *.out
