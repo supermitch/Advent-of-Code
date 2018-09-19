@@ -30,25 +30,9 @@ def find_all(replacements, start):
     return opts
 
 
-def order_replacements_by_output(replacements):
+def order_by_len(replacements):
     arr = [(v, k) for k, vs in replacements.items() for v in vs]
     return sorted(arr, key=lambda x: len(x[0]), reverse=True)
-
-
-def fabricate_molecule(replacements, goal):
-    options = ['e']  # Starting molecule
-    count = 0
-    while True:
-        count += 1
-        if not count % 10000:
-            print(count)
-        new_options = set()
-        for option in options:
-            new = find_all(replacements, option)
-            if goal in new:
-                return count
-            new_options.update(new)
-        options = new_options.copy()
 
 
 def revert(mol, rep):
@@ -57,11 +41,10 @@ def revert(mol, rep):
     return mol[:idx] + old + mol[idx + len(new):]
 
 
-def defab(reps, start, goal='e'):
+def defabricate(reps, start, goal='e'):
     molecule = start
     count = 0
-    blocked = False
-    while not blocked:
+    while True:
         blocked = True
         for new, old in reps:
             if new in molecule:
@@ -70,8 +53,9 @@ def defab(reps, start, goal='e'):
                 count += 1
                 if molecule == goal:
                     return count
-    return count
-
+        if blocked:
+            print('Could not converge!')
+            return count
 
 
 def main():
@@ -86,19 +70,11 @@ def main():
     print('Part A: {} - Distinct molecules'.format(count))
 
     test_replacements = {'e': ['H', 'O'], 'H': ['HO', 'OH'], 'O': ['HH']}
-    test_ordered = order_replacements_by_output(test_replacements)
-    assert fabricate_molecule(test_replacements, 'HOH') == 3
-    assert fabricate_molecule(test_replacements, 'HOHOHO') == 6
+    test_ordered = order_by_len(test_replacements)
+    assert defabricate(test_ordered, 'HOH') == 3
+    assert defabricate(test_ordered, 'HOHOHO') == 6  # Fails to converge
 
-    assert revert('Hello there', ('o t', 'cat')) == 'Hellcathere'
-
-    assert defab(test_ordered, 'HOH') == 3
-    assert defab(test_ordered, 'HOHOHO') == 6
-
-    print('asserts passed')
-    reps = order_replacements_by_output(replacements)
-    count = defab(reps, molecule)
-    # count = fabricate_molecule(replacements, molecule)
+    count = defabricate(order_by_len(replacements), molecule)
     print('Part B: {} - Steps until medicine is fabricated'.format(count))
 
 
