@@ -1,3 +1,24 @@
+#!/usr/bin/env python
+
+
+def find_elevator(layout):
+    for i, floor in enumerate(layout):
+        if 'E' in floor:
+            return i
+
+
+def complete(layout):
+    return not any(floor for floor in layout[:-1])  # All items on floor 4
+
+
+def operate(layout):
+    steps = 0
+    e = find_elevator(layout)
+    print(e)
+
+    return steps
+
+
 def main():
     """
     Goal: Get everything to 4th floor
@@ -5,24 +26,27 @@ def main():
     Rules:
     - Two objects max in elevator
     - One object min in elevator
-    - G will fry M unless they are the same type
-    - G + matching M means M is shielded from other G
+    - Generators (G) will fry Micorchips (M) unless they are the same type
+    - Gx + Mx of same type means Mx is shielded from other G's
     - G has no effect on other G
     - M has no effect on other M
 
     """
-    layout = {
-        4: [],
-        3: ['Mco', 'Mcu', 'Mru'],
-        2: ['Gco', 'Gcu', 'Gru', 'Gpl'],
-        1: ['E',   'Gpr', 'Mpr'],
-    }
-    test = {
-        4: [],
-        3: ['LG'],
-        2: ['HG'],
-        1: ['E', 'HM', 'LM'],
-    }
+    test = [
+        ['E', 'Mh', 'Ml'],
+        ['Gh'],
+        ['Gl'],
+        [],
+    ]
+
+    steps = operate(test)
+
+    layout = [
+        ['E', 'Gpr', 'Mpr'],  # 0 is ground floor
+        ['Gco', 'Gcu', 'Gru', 'Gpl'],
+        ['Mco', 'Mcu', 'Mru'],
+        [],
+    ]
     print('Part A: {} - '.format(None))
     print('Part B: {} - '.format(None))
 
