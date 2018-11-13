@@ -11,17 +11,22 @@ class Disk:
         self.avail = total - used
 
     def __repr__(self):
-        return 'Disk({}, {}, {}/{}: {})'.format(self.x, self.y, self.used, self.total, self.avail)
+        return ('Disk({}, {}, {}/{}: {})'
+                ''.format(self.x, self.y, self.used, self.total, self.avail))
 
 
 def parse(line):
-    match = re.match(r'^.*\-x([0-9]+)\-y([0-9]+) +([0-9]+)T +([0-9]+)T.*$', line)
+    match = re.match(
+        r'^.*\-x([0-9]+)\-y([0-9]+) +([0-9]+)T +([0-9]+)T.*$',
+        line
+    )
     if match:
         return Disk(*[int(x) for x in match.groups()])
 
 
 def group_by(data, attribute):
-    keyfunc = lambda x: getattr(x, attribute)
+    def keyfunc(x):
+        return getattr(x, attribute)
     sorted_by = sorted(data, key=keyfunc)
     return {k: list(g) for k, g in groupby(sorted_by, keyfunc)}
 
@@ -43,5 +48,9 @@ def main():
     print('Part A: {} - Number of available pairs'.format(pairs_count))
 
 
+    grid = [[] 
+
+    for disk in data:
+        grid[disc.x][disc.y] = disk
 if __name__ == '__main__':
     main()
