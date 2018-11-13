@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+import sys
+
+
+def get_input():
+    ans = raw_input()
+    if ans == 'q':
+        return False
+    else:
+        return True
 
 
 class Facility:
@@ -25,15 +34,20 @@ class Facility:
 
     def operate(self):
         steps = 0
+        print(self)
+        while get_input():
+            print(self)
         return steps
 
     def __str__(self):
         contents = []
         for i, floor in enumerate(self.floors):
-            contents.append(str(floor))
+            string = '{}. '.format(i + 1)
             if self.elevator == i:
-                contents[-1] = 'E ' + contents[-1]
-        return '\n'.join(contents)
+                string += 'E '
+            string += '{}'.format(floor)
+            contents.append(string)
+        return '\n'.join(contents[::-1])
 
 
 class Floor:
@@ -87,9 +101,7 @@ def main():
         [],
     ]
     facility = Facility(test)
-    print(facility)
-    return
-    assert facility.operate() == 11
+    print('Test steps: {}\n'.format(facility.operate()))
 
     layout = [
         ['E', 'G-Pr', 'M-Pr'],  # Ground floor
@@ -98,11 +110,10 @@ def main():
         [],
     ]
     facility = Facility(layout)
-    print(facility)
     steps = facility.operate()
 
-    print('Part A: {} - '.format(steps))
-    print('Part B: {} - '.format(None))
+    print('Part A: {} - Steps to move parts to top floor'.format(steps))
+    # print('Part B: {} - '.format(None))
 
 
 if __name__ == '__main__':
