@@ -1,9 +1,5 @@
+#!/usr/bin/env python
 from collections import defaultdict
-
-
-def parse(line):
-    parts = line.split()
-    return parts
 
 
 def get(regs, val):
@@ -33,7 +29,6 @@ def run(steps, init):
     while True:
         jump = 1
         step = steps[i]
-        print('{}. {}: {}'.format(i, step, regs))
         if 'cpy' in step:
             _, a, b = step
             try:
@@ -57,7 +52,6 @@ def run(steps, init):
             if get(regs, a) != 0:
                 jump = get(regs, b)
         elif 'tgl' in step:
-            print('Toggle!')
             _, a = step
             a = get(regs, a)
             if i + a >= len(steps):
@@ -70,15 +64,55 @@ def run(steps, init):
             return regs
 
 
+def part_b():
+    import pdb
+    pdb.set_trace()
+    a = 12
+    b = a
+    b -= 1  # b == 11
+    d = a  # d == 12
+    a = 0
+    while True:
+        c = b  # c == 11
+        while True:
+            a += 1  # 12 + 1
+            c -= 1
+            if c == 0:
+                break
+        d -= 1
+        if d == 0:
+            break
+    b -= 1
+    c = b
+    d = c
+    while True:
+        d -= 1
+        c += 1
+        if d == 0:
+            break
+    print('tgl c', c)
+    c = -16
+    print('jnz 1 c', c)
+    c = 84
+    print('jnz 75 d', d)
+    while True:
+        a += 1
+        d += 1
+        if d == 0:
+            break
+    c += 1
+    print('jnz c -5', c)
+
+
 def main():
     with open('input.txt', 'r') as f:
-        steps = [parse(l.strip()) for l in f]
+        steps = [l.strip().split() for l in f]
 
-    # regs = run(steps[:], 7)
-    # print('Part A: {} - Value of register \'a\''.format(regs['a']))
+    regs = run(steps[:], 7)
+    print("Part A: {} - Value of register 'a'".format(regs['a']))
 
-    regs = run(steps[:], 12)
-    print('Part B: {} - Value of register \'a\''.format(regs['a']))
+    part_b()
+    # print('Part B: {} - Value of register \'a\''.format(regs['a']))
 
 
 if __name__ == '__main__':
