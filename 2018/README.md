@@ -1,10 +1,10 @@
 # Advent of Code 2018
 
-http://adventofcode.com/2018
+http://adventofcode.com/2018 - Someone is rewriting Santa's History!
 
 1. [Chronal Calibration](http://adventofcode.com/2018/day/01) - [![Python](/images/python.png)](01/one.py)
-  * A. Sum a list of frequency values
-  * B. Find the first repeated total
+   * Sum a list of frequency values, e.g. +1, -2
+   * Find the first repeated frequency sum
 2. [TBD](http://adventofcode.com/2018/day/02)
 3. [TBD](http://adventofcode.com/2018/day/03)
 4. [TBD](http://adventofcode.com/2018/day/04)
