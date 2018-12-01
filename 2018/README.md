@@ -2,7 +2,9 @@
 
 http://adventofcode.com/2018
 
-1. [TBD](http://adventofcode.com/2018/day/01) - [![Python](/images/python.png)](01/one.py)
+1. [Chronal Calibration](http://adventofcode.com/2018/day/01) - [![Python](/images/python.png)](01/one.py)
+  * A. Sum a list of frequency values
+  * B. Find the first repeated total
 2. [TBD](http://adventofcode.com/2018/day/02)
 3. [TBD](http://adventofcode.com/2018/day/03)
 4. [TBD](http://adventofcode.com/2018/day/04)
