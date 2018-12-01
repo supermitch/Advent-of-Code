@@ -6,29 +6,23 @@ A. Sum a list of values, e.g. +1, -2
 B. Find the first calculated value that repeats. Repeat input as required.
 """
 
-def main():
-    with open('input.txt', 'r') as f:
-        data = [l.strip() for l in f]
-
+def find_repeat(data):
     freq = 0
     seen = set()
-    duplicate = None
-    result = None
     while True:
         for val in data:
-            freq += int(val)
+            freq += val
             if freq in seen:
-                duplicate = freq
-                break
+                return freq
             seen.add(freq)
-        else:
-            if not result:
-                result = freq
-        if duplicate:
-            break
 
-    print('Part A: {} - Resulting frequency'.format(result))
-    print('Part B: {} - First duplicate frequency'.format(duplicate))
+
+def main():
+    with open('input.txt', 'r') as f:
+        data = [int(l.strip()) for l in f]
+
+    print('Part A: {} - Resulting frequency'.format(sum(data)))
+    print('Part B: {} - First duplicate frequency'.format(find_repeat(data)))
 
 
 if __name__ == '__main__':
