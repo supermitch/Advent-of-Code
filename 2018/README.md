@@ -3,9 +3,11 @@
 http://adventofcode.com/2018 - Someone is rewriting Santa's History! ⌛
 
 1. [Chronal Calibration](http://adventofcode.com/2018/day/1) - [![Python](/images/python.png)](01/one.py)
-   * Sum a list of frequency values, e.g. +1, -2
-   * Find the first repeated frequency sum
-2. [TBD](http://adventofcode.com/2018/day/2)
+   * Sum a list of frequency values, e.g. +1, -2, -4
+   * First repeated frequency sum
+2. [Inventory Management System](http://adventofcode.com/2018/day/2) - [![Python](/images/python.png)](02/two.py)
+   * Product of counts of words with 2 and 3 repeat chars
+   * The matching parts of two words with only 1 differing char
 3. [TBD](http://adventofcode.com/2018/day/3)
 4. [TBD](http://adventofcode.com/2018/day/4)
 5. [TBD](http://adventofcode.com/2018/day/5)
