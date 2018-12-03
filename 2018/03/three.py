@@ -1,22 +1,19 @@
 #!/usr/bin/env python
-#from itertools import combinations
-#from collections import OrderedDict
+"""
+Day 3: No Matter How You Slice It
+A. Find all cells that overlap, given several numbered areas
+B. Find the only numbered area with no overlapping
+"""
+import re
 from collections import defaultdict
 
 
-def parse(line):
-    parts = line.split()
-    n = int(parts[0][1:])
-    x, y = parts[2].split(',')
-    x, y = int(x), int(y[:-1])
-    w, h = parts[3].split('x')
-    w, h = int(w), int(h)
-    return n, x, y, w, h
-
-
 def read_input():
+    data = []
     with open('input.txt', 'r') as f:
-        return [parse(l.strip()) for l in f]
+        for line in f:
+            data.append([int(x) for x in re.split('[#@, x:]', line) if x])
+    return data
 
 
 def build_grid(data):
@@ -28,43 +25,22 @@ def build_grid(data):
     return coords
 
 
-def part_a(coords):
-    overlap = 0
-    for k, v in coords.items():
-        if len(v) > 1:
-            overlap += 1
-    return overlap
-
-
-def part_b(coords):
+def find_claim(coords):
     claims = set(list(range(1, 1310)))
-    for coord, no in coords.items():
-        if len(no) > 1:
-            for x in no:
-                if x in claims:
-                    claims.remove(x)
+    for nos in coords.values():
+        if len(nos) > 1:
+            for n in nos:
+                if n in claims:
+                    claims.remove(n)
     return claims.pop()  # Only one should remain
 
 
 def main():
     data = read_input()
-
-    test = [
-        (1, 1, 3, 4, 4),
-        (2, 3, 1, 4, 4),
-        (3, 5, 5, 2, 2),
-    ]
-    coords = build_grid(test)
-    overlap = part_a(coords)
-    assert overlap == 4
-    claim = part_b(coords)
-    assert claim == 3
-
     coords = build_grid(data)
-    overlap = part_a(coords)
-    print('Part A: {} - No of overlapping claim coords'.format(overlap))
-
-    claim = part_b(coords)
+    overlaps = sum(len(v) > 1 for v in coords.values())
+    print('Part A: {} - No of overlapping claim coords'.format(overlaps))
+    claim = find_claim(coords)
     print('Part B: {} - The claim with no overlap'.format(claim))
 
 

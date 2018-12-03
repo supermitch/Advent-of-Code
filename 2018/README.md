@@ -8,7 +8,9 @@ http://adventofcode.com/2018 - Someone is rewriting Santa's History! ⌛
 2. [Inventory Management System](http://adventofcode.com/2018/day/2) - [![Python](/images/python.png)](02/two.py)
    * Product of counts of words with 2 and 3 repeat chars
    * The matching parts of two words with only 1 differing char
-3. [TBD](http://adventofcode.com/2018/day/3)
+3. [No Matter How You Slice It](http://adventofcode.com/2018/day/3) - [![Python](/images/python.png)](03/three.py)
+   * Find all cells that overlap, given several numbered areas
+   * Find the single numbered area with no overlapping
 4. [TBD](http://adventofcode.com/2018/day/4)
 5. [TBD](http://adventofcode.com/2018/day/5)
 6. [TBD](http://adventofcode.com/2018/day/6)
