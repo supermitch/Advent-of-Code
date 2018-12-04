@@ -25,7 +25,6 @@ def group_by_id(data):
 def calculate_schedule(guard_data):
     guard_mins = {}
     for id, stamps in guard_data.items():
-        guard_total = 0
         mins = defaultdict(int)
         for i in range(0, len(stamps) - 1, 2):
             sleep, wake = stamps[i], stamps[i + 1]
@@ -33,7 +32,6 @@ def calculate_schedule(guard_data):
             end = int(wake.split(':')[1])  # Minutes
             for j in range(start, end):  # The clock minutes
                 mins[j] += 1
-            guard_total += end - start
         guard_mins[id] = mins
     return guard_mins
 
