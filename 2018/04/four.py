@@ -1,79 +1,51 @@
 #!/usr/bin/env python
 from collections import defaultdict
-import re
-from pprint import pprint
 
-def parse(line):
-    # e.g. [1518-03-27 00:02] Guard #2789 begins shift
+def parse(line):  # e.g. [1518-03-27 00:02] Guard #2789 begins shift
     date = line[1:17]
+    id = int(line.split('#')[1].split()[0]) if '#' in line else None
+    return date, id
 
-    id = None
-    if '#' in line:
-        id = int(line.split('#')[1].split()[0])
-    act = None
-    if 'up' in line:
-        act = 'up'
-    elif 'asleep' in line:
-        act = 'sleep'
-    return (date, id, act)
 
 def read_input():
     with open('input.txt', 'r') as f:
         return [parse(l.strip()) for l in f]
 
-def part_a(data):
-    return None
 
-def part_b(data):
-    return None
-
-def main():
-    print('\n')
-    data = read_input()
-    sort = sorted(data, key=lambda x:x[0])  # Sort by timestamp
-
+def group_by_id(data):
     guards = defaultdict(list)
-    current_id = None
-    for date, id, act in sort:
-        if id:
+    for date, id in data:
+        if id:  # Starts shift (time irrelevant)
             current_id = id
-        if act:
-            guards[current_id].append((date, act))
+        else:  # Falls sleep or wakes up
+            guards[current_id].append(date)
+    return guards
 
-    longest = 0
-    max_guard = None
+
+def calculate_schedule(guard_data):
     guard_mins = {}
-    for id, stamps in guards.items():
-        print('Guard: ', id)
-        id_total = 0
+    for id, stamps in guard_data.items():
+        guard_total = 0
         mins = defaultdict(int)
         for i in range(0, len(stamps) - 1, 2):
-            sleep, act = stamps[i]
-            start = int(sleep.split(':')[1])
-            wake, act = stamps[i + 1]
-            end = int(wake.split(':')[1])
-            for j in range(start, end):
+            sleep, wake = stamps[i], stamps[i + 1]
+            start = int(sleep.split(':')[1])  # Minutes
+            end = int(wake.split(':')[1])  # Minutes
+            for j in range(start, end):  # The clock minutes
                 mins[j] += 1
-            asleep = end - start
-            print(stamps[i], stamps[i + 1], asleep)
-            id_total += asleep
-            if id_total > longest:
-                longest = id_total
-                max_guard = id
-        print(id, id_total)
+            guard_total += end - start
         guard_mins[id] = mins
-
-    print('guard', max_guard, 'total: ', longest)
-    max_mins = None
-    most = 0
-    for k, v in guard_mins[max_guard].items():
-        if v > most:
-            most = v
-            max_mins = k
-    print('max mins', max_mins)
-    print('Part A', max_guard * max_mins)
+    return guard_mins
 
 
+def worst_guard(guard_mins):  # Part A
+    worst_id = max(guard_mins, key=lambda k: sum(guard_mins[k].values()))
+    sleep_mins = guard_mins[worst_id]
+    worst_minute = max(sleep_mins, key=lambda k: sleep_mins[k])
+    return worst_id * worst_minute
+
+
+def most_consistent(guard_mins):  # Part B
     max_duration = 0
     max_time = None
     max_id = None
@@ -83,13 +55,21 @@ def main():
                 max_duration = v
                 max_time = k
                 max_id = id
-    print(max_duration, max_time, max_id)
-    print('Part B', max_time * max_id)
+    return max_time * max_id
 
-    ans_a = part_a(data)
-    print('Part A: {} - '.format(ans_a))
-    ans_b = part_b(data)
-    print('Part B: {} - '.format(ans_b))
+
+def main():
+    raw = read_input()
+    data = sorted(raw, key=lambda x:x[0])  # Sort by timestamp
+    guard_data = group_by_id(data)
+    guard_mins = calculate_schedule(guard_data)
+
+    part_a = worst_guard(guard_mins)
+    print("Part A: {} - Sleepiest guard's worst Guard-Minute".format(part_a))
+
+    part_b = most_consistent(guard_mins)
+    print('Part B: {} - Most consistently slept Guard-Minute'.format(part_b))
+
 
 if __name__ == '__main__':
     main()
