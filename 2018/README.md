@@ -11,7 +11,9 @@ http://adventofcode.com/2018 - Someone is rewriting Santa's History! ⌛
 3. [No Matter How You Slice It](http://adventofcode.com/2018/day/3) - [![Python](/images/python.png)](03/three.py)
    * Find all cells that overlap, given several numbered areas
    * Find the single numbered area with no overlapping
-4. [TBD](http://adventofcode.com/2018/day/4)
+4. [Repose Record](http://adventofcode.com/2018/day/4) - [![Python](/images/python.png)](04/four.py)
+   * Find the guard who sleeps the most, and which clock minute he slept most
+   * Find the clock minute most slept, and which guard did slept them
 5. [TBD](http://adventofcode.com/2018/day/5)
 6. [TBD](http://adventofcode.com/2018/day/6)
 7. [TBD](http://adventofcode.com/2018/day/7)
