@@ -18,7 +18,7 @@ def find_closest(x, y, data):
         dists[i] = abs(n - y) + abs(m - x)
     sort = sorted(dists.values())
     if sort[0] == sort[1]:
-        return None
+        return None  # For a tie, there is no 'closest' node
     else:
         return sorted(dists, key=lambda k:dists[k])[0]
 
@@ -54,7 +54,7 @@ def main():
             closes[(x, y)] = closest
 
     edges = set()
-    edges.add(None)
+    edges.add(None)  # Ties (Nones) are also ignored.
     for x in range(x1, x2 + 1):
         edges.add(closes[(x, min_y)])
         edges.add(closes[(x, max_y)])
