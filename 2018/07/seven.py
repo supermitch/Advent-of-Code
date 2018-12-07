@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+import itertools
 from collections import defaultdict
-from itertools import permutations
-import string
+from string import ascii_uppercase
 
 def parse(l):
     l = l.split()
@@ -13,8 +13,8 @@ def read_input():
 
 def main():
     data = read_input()
-    ADD = 60
-    WORKERS = 5
+    TIME = 60
+    WORKER_COUNT = 5
     test = [
         ('C', 'A'),
         ('C', 'F'),
@@ -24,70 +24,44 @@ def main():
         ('D', 'E'),
         ('F', 'E'),
     ]
+
     reqs = defaultdict(list)
-    for x, y in data:
-        reqs[y].append(x)
+    for x, y in data:  # e.g. Step A must be finished before step G can begin
+        reqs[y].append(x)  # e.g. {G: [A, I, K]} - Lists requirements for G
 
-    alphabet = set()
-    befores = set()
-    for x, y in data:
-        alphabet.add(x)
-        alphabet.add(y)
-        befores.add(y)
+    all_chars = set([x for x, y in data] + [y for x, y in data])
+    blocked = set([y for _, y in data])
 
-    # Step A must be finished before step G can begin.
-    starts = alphabet - befores
-    starts = sorted(starts)
-    print(starts)
+    queue = list(sorted(all_chars - blocked))
     steps = []
-    queue = sorted(starts)
 
-    time = 0
-    times = {k: i for i, k in enumerate(string.ascii_uppercase, start=1)}
-    complete = {k: False for k in string.ascii_uppercase}
-    work_queue = [None] * WORKERS
-    while True:
-        print('\ntime: ', time)
-        for k, req in reqs.items():
-            if all(x in steps for x in req):
-                if k not in queue and k not in steps:
-                    if not any(wq['char'] == k for wq in work_queue if wq):
-                        queue.append(k)
-
-        queue = sorted(queue)
-        print('queue 1', queue)
-        next_work = work_queue[:]
-        for i, wq in enumerate(work_queue):
-            if wq is not None and time - wq['start'] >= times[wq['char']] + ADD:
-                print('work complete')
+    times = {c: TIME + ord(c) - ord('A') + 1 for c in ascii_uppercase}
+    jobs = [None] * WORKER_COUNT
+    for t in itertools.count():
+        for i, wq in enumerate(jobs):
+            if wq and t - wq['start'] >= times[wq['char']]:
                 steps.append(wq['char'])
-                wq = None
-                next_work[i] = wq
-        work_queue = next_work[:]
+                jobs[i] = None  # Complete jobs
+
+        to_del = []
         for k, req in reqs.items():
-            if all(x in steps for x in req):
-                if k not in queue and k not in steps:
-                    if not any(wq['char'] == k for wq in work_queue if wq):
-                        queue.append(k)
+            if all(x in steps for x in req):  # All requirements met
+                queue.append(k)  # Add to queue
+                to_del.append(k)
+        reqs = {k: req for k, req in reqs.items() if k not in to_del}
 
         queue = sorted(queue)
-        next_work = work_queue[:]
-        for i, wq in enumerate(work_queue):
-            if wq is None:  # Can pick up a job
-                if queue:
-                    worker = {'char': queue[0], 'start': time}  # Start work
-                    next_work[i] = worker
-                    del queue[0]
-        work_queue = next_work[:]
-        print(work_queue)
-        print('steps', steps)
-        print('queue 2', queue)
+        for i, wq in enumerate(jobs):
+            if wq is None and queue:  # Can pick up a job, and jobs exist
+                worker = {'char': queue[0], 'start': t}  # Start work
+                jobs[i] = worker  # Start next job
+                del queue[0]
 
-        if len(steps) == len(alphabet):
-            print('done', ''.join(steps))
+        if len(steps) == len(all_chars):
+            print('Done: {}'.format(''.join(steps)))
             break
-        time += 1
-    print('total time', time)  # 943 High, 930 Low, 938, 942, 932
+    print('Part B: {} - Total time for 5 workers to complete'.format(t))
+
 
 if __name__ == '__main__':
     main()
