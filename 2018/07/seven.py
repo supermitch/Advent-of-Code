@@ -3,28 +3,8 @@ import itertools
 from collections import defaultdict
 from string import ascii_uppercase
 
-def parse(l):
-    l = l.split()
-    return l[1], l[7]
 
-def read_input():
-    with open('input.txt') as f:
-        return [parse(l.strip()) for l in f]
-
-def main():
-    data = read_input()
-    TIME = 60
-    WORKER_COUNT = 5
-    test = [
-        ('C', 'A'),
-        ('C', 'F'),
-        ('A', 'B'),
-        ('A', 'D'),
-        ('B', 'E'),
-        ('D', 'E'),
-        ('F', 'E'),
-    ]
-
+def complete(data, times, workers=1):
     reqs = defaultdict(list)
     for x, y in data:  # e.g. Step A must be finished before step G can begin
         reqs[y].append(x)  # e.g. {G: [A, I, K]} - Lists requirements for G
@@ -33,10 +13,9 @@ def main():
     blocked = set([y for _, y in data])
 
     queue = list(sorted(all_chars - blocked))
-    steps = []
 
-    times = {c: TIME + ord(c) - ord('A') + 1 for c in ascii_uppercase}
-    jobs = [None] * WORKER_COUNT
+    steps = []
+    jobs = [None] * workers
     for t in itertools.count():
         for i, wq in enumerate(jobs):
             if wq and t - wq['start'] >= times[wq['char']]:
@@ -58,9 +37,22 @@ def main():
                 del queue[0]
 
         if len(steps) == len(all_chars):
-            print('Done: {}'.format(''.join(steps)))
-            break
-    print('Part B: {} - Total time for 5 workers to complete'.format(t))
+            return ''.join(steps), t
+
+def main():
+    data = []
+    with open('input.txt') as f:
+        for l in f:
+            p = l.strip().split()
+            data.append((p[1], p[7]))
+
+    times = {c: 1 for c in ascii_uppercase}  # Times to complete each node
+    part_a, _ = complete(data, times, workers=1)
+    print('Part A: {} - Sorted step order'.format(part_a))
+
+    times = {c: 60 + ord(c) - ord('A') + 1 for c in ascii_uppercase}
+    _, part_b = complete(data, times, workers=5)
+    print('Part B: {} - Time for 5 workers to build the sleigh'.format(part_b))
 
 
 if __name__ == '__main__':
