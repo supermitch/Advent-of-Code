@@ -14,10 +14,18 @@ http://adventofcode.com/2018 - Someone is rewriting Santa's History! ⌛
 4. [Repose Record](http://adventofcode.com/2018/day/4) - [![Python](/images/python.png)](04/four.py)
    * Find the guard who sleeps the most, and which clock minute he slept most
    * Find the clock minute most slept, and which guard did slept them
-5. [TBD](http://adventofcode.com/2018/day/5)
-6. [TBD](http://adventofcode.com/2018/day/6)
-7. [TBD](http://adventofcode.com/2018/day/7)
-8. [TBD](http://adventofcode.com/2018/day/8)
+5. [Alchemical Reduction](http://adventofcode.com/2018/day/5) - [![Python](/images/python.png)](05/five.py)
+   * Reduce the polymer chain by removing matching pairs, e.g. `aA`
+   * Find the shortest polymer by removing blocking pairs
+6. [Chronal Coordinates](http://adventofcode.com/2018/day/6) - [![Python](/images/python.png)](06/six.py)
+   * Using Manhattan distance, find the largest non-infinite area
+   * Find the size of the area less than 10,000 steps from every given coordinate
+7. [The Sum of Its Parts](http://adventofcode.com/2018/day/7) - [![Python](/images/python.png)](07/seven.py)
+   * Complete a series of steps, in order, to assemble the sleigh
+   * Given a set of 5 workers and task durations, calculate the time to completion
+8. [Memory Maneuver](http://adventofcode.com/2018/day/8) - [![Python](/images/python.png)](08/eight.py)
+   * Read a series of integers that define a tree structure, and sum all nodes' metadata
+   * Sum all the nodes in the tree using <some arbitrary formula>
 9. [TBD](http://adventofcode.com/2018/day/9)
 10. [TBD](http://adventofcode.com/2018/day/10)
 11. [TBD](http://adventofcode.com/2018/day/11)
