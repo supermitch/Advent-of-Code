@@ -8,12 +8,7 @@ import re
 
 
 def parse(l):
-    return [int(x) for x in re.sub('[^0-9-]', ' ', l.strip()).split()]
-
-
-def read_input():
-    with open('input.txt') as f:
-        return [parse(l) for l in f]
+    return [int(x) for x in re.sub('[^0-9-]', ' ', l).split()]
 
 
 class Point:
@@ -36,15 +31,16 @@ def draw(points, max_x, min_x):
         for i in range(min_x, max_x + 1):
             for p in points:
                 if p.x == i and p.y == j:
-                    line += '#'
+                    line += '█'
                     break
-            else:
-                line += '.'
+            else:  # Not points here
+                line += ' '
         print(line)
 
 
 def main():
-    data = read_input()
+    with open('input.txt') as f:
+        data = [parse(l) for l in f]
     points = [Point(*d) for d in data]
 
     converged = False
@@ -56,12 +52,13 @@ def main():
         max_x = max(p.x for p in points)
         min_x = min(p.x for p in points)
 
-        if (max_x - min_x) <= 65:  # Only start drawing when points are close
-            print('Time: {} s'.format(t))
+        if (max_x - min_x) <= 65:  # Start drawing when points get close
+            print('Time: {} s\n'.format(t))
             draw(points, max_x, min_x)
+            print('\n')
             converged = True
         else:
-            if converged:
+            if converged:  # Quit when points separate again
                 break
 
     print('Part A: BHPJGLPE - The navigation message')
