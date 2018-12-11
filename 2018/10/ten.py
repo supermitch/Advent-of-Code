@@ -33,7 +33,7 @@ def draw(points, max_x, min_x):
                 if p.x == i and p.y == j:
                     line += '█'
                     break
-            else:  # Not points here
+            else:  # No points at this coordinate
                 line += ' '
         print(line)
 
