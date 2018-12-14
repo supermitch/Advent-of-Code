@@ -28,7 +28,7 @@ def build_grid(data):
 def find_claim(coords):
     claims = set(list(range(1, 1310)))
     for nos in coords.values():
-        if len(nos) > 1:
+        if len(nos) > 1:  # This coord has several claims
             for n in nos:
                 if n in claims:
                     claims.remove(n)
