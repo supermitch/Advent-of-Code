@@ -26,14 +26,22 @@ http://adventofcode.com/2018 - Someone is rewriting Santa's History! ⌛
 8. [Memory Maneuver](http://adventofcode.com/2018/day/8) - [![Python](/images/python.png)](08/eight.py)
    * Read a series of integers that define a tree structure, and sum all nodes' metadata
    * Sum all the nodes in the tree using <some arbitrary formula>
-9. [TBD](http://adventofcode.com/2018/day/9)
-10. [TBD](http://adventofcode.com/2018/day/10)
-11. [TBD](http://adventofcode.com/2018/day/11)
-12. [TBD](http://adventofcode.com/2018/day/12)
-13. [TBD](http://adventofcode.com/2018/day/13)
-14. [TBD](http://adventofcode.com/2018/day/14)
-15. [TBD](http://adventofcode.com/2018/day/15)
-16. [TBD](http://adventofcode.com/2018/day/16)
+9. [Marble Mania](http://adventofcode.com/2018/day/9) - [![Python](/images/python.png)](09/nine.py)
+10. [The Stars Align](http://adventofcode.com/2018/day/10) - [![Python](/images/python.png)](10/ten.py)
+11. [Chronal Charge](http://adventofcode.com/2018/day/11) - [![Python](/images/python.png)](11/eleven.py)
+12. [Subterranean Sustainability](http://adventofcode.com/2018/day/12) - [![Python](/images/python.png)](12/twelve.py)
+13. [Mine Cart Madness](http://adventofcode.com/2018/day/13) - [![Python](/images/python.png)](13/thirteen.py)
+    * Find the location of the first crash in map of mine carts
+    * Find the location of the last uncrashed cart
+14. [Chocolate Charts](http://adventofcode.com/2018/day/14) - [![Python](/images/python.png)](14/fourteen.py)
+    * Calculate a series of "recipes" and find which 10 recipes come after a certain count
+    * Find the first appearance of a recipe sequence
+15. [Beverage Bandits](http://adventofcode.com/2018/day/15) - [![Python](/images/python.png)](15/fifteen.py)
+    * Write a AAA Elf battle game
+    * Find out the minimum power required for the elves to win
+16. [Chronal Classification](http://adventofcode.com/2018/day/16) - [![Python](/images/python.png)](16/sixteen.py)
+    * Find out how many samples could be caused by 3 or more opcodes
+    * Determine the opcodes, then calculate the register values given a set of operations
 17. [TBD](http://adventofcode.com/2018/day/17)
 18. [TBD](http://adventofcode.com/2018/day/18)
 19. [TBD](http://adventofcode.com/2018/day/19)
