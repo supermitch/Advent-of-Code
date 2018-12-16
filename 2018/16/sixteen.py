@@ -2,7 +2,7 @@
 import re
 
 
-def read_input():
+def read_input_a():
     samples = []
     with open('input_a.txt') as f:
         while True:
@@ -16,157 +16,126 @@ def read_input():
     return samples
 
 
+def read_input_b():
+    operations = []
+    with open('input_b.txt') as f:
+        for l in f:
+            operations.append([int(x) for x in l.split()])
+    return operations
+
+
 def addr(a, b, c, regs):
-    name = 'addr'
     regs[c] = regs[a] + regs[b]
-    return regs, name
+    return regs
 
 def addi(a, b, c, regs):
-    name = 'addi'
     regs[c] = regs[a] + b
-    return regs, name
+    return regs
 
 def mulr(a, b, c, regs):
-    name = 'mulr'
     regs[c] = regs[a] * regs[b]
-    return regs, name
+    return regs
 
 def muli(a, b, c, regs):
-    name = 'muli'
     regs[c] = regs[a] * b
-    return regs, name
+    return regs
 
 def banr(a, b, c, regs):
-    name = 'banr'
     regs[c] = regs[a] & regs[b]
-    return regs, name
+    return regs
 
 def bani(a, b, c, regs):
-    name = 'bani'
     regs[c] = regs[a] & b
-    return regs, name
+    return regs
 
 def borr(a, b, c, regs):
-    name = 'borr'
     regs[c] = regs[a] | regs[b]
-    return regs, name
+    return regs
 
 def bori(a, b, c, regs):
-    name = 'bori'
     regs[c] = regs[a] | b
-    return regs, name
+    return regs
 
-def setr(a, b, c, regs):
-    name = 'setr'
+def setr(a, _, c, regs):
     regs[c] = regs[a]
-    return regs, name
+    return regs
 
-def seti(a, b, c, regs):
-    name = 'seti'
+def seti(a, _, c, regs):
     regs[c] = a
-    return regs, name
+    return regs
 
 def gtir(a, b, c, regs):
-    name = 'gtir'
     regs[c] = 1 if a > regs[b] else 0
-    return regs, name
+    return regs
 
 def gtri(a, b, c, regs):
-    name = 'gtri'
     regs[c] = 1 if regs[a] > b else 0
-    return regs, name
+    return regs
 
 def gtrr(a, b, c, regs):
-    name = 'gtrr'
     regs[c] = 1 if regs[a] > regs[b] else 0
-    return regs, name
+    return regs
 
 def eqir(a, b, c, regs):
-    name = 'eqir'
     regs[c] = 1 if a == regs[b] else 0
-    return regs, name
+    return regs
 
 def eqri(a, b, c, regs):
-    name = 'eqri'
     regs[c] = 1 if regs[a] == b else 0
-    return regs, name
+    return regs
 
 def eqrr(a, b, c, regs):
-    name = 'eqrr'
     regs[c] = 1 if regs[a] == regs[b] else 0
-    return regs, name
+    return regs
 
 
-def count_ops(samples, funcs, opcodes):
+def count_ops(samples, opcodes):
     total = 0
     for sample in samples:
         matches = []
-        for func in funcs:
+        for opcode in opcodes.values():
             code, a, b, c = sample['op']
-            result, name = func(a, b, c, sample['b'][:])
-            if result == sample['a']:
-                matches.append([code, name])
-        if [code, opcodes[code]] not in matches:
-            print('Horrible bug', code, opcodes[code])
-            return
+            if opcode(a, b, c, sample['b'][:]) == sample['a']:
+                matches.append([code, opcode.__name__])
         if len(matches) >= 3:
             total += 1
-    print('Total:', total)  # Not 554
     return total
 
-def validate(samples, opers):
-    for sample in samples:
-        regs = sample['b']  # before
-        code, a, b, c = sample['op']
-        result, name = globals()[opers[code]](a, b, c, regs)
-        if result != sample['a']:  # After should match
-            print('Horrible bug', sample)
-            return False
-    return True
 
 def execute(operations, opcodes):
     regs = [0, 0, 0, 0]
     for row in operations:
         code, a, b, c = row
-        regs, _ = globals()[opcodes[code]](a, b, c, regs)
-    print('Register 0:', regs[0])
+        regs = opcodes[code](a, b, c, regs)
+    return regs[0]
 
 
 def main():
-    samples = read_input()
-    # samples = [{'b': [3, 2, 1, 1], 'op': [9, 2, 1, 2], 'a':  [3, 2, 2, 1]}]
-    funcs = [
-        addr, addi, mulr, muli, banr, bani, borr, bori,
-        setr, seti, gtir, gtri, gtrr, eqir, eqri, eqrr
-    ]
-    opers = {
-        0: 'addi',
-        1: 'eqrr',
-        2: 'borr',
-        3: 'gtri',
-        4: 'addr',
-        5: 'seti',
-        6: 'muli',
-        7: 'bani',
-        8: 'banr',
-        9: 'gtrr',
-        10: 'setr',
-        11: 'gtri',
-        12: 'bori',
-        13: 'eqri',
-        14: 'eqir',
-        15: 'mulr',
+    opcodes = {
+        0: addi,
+        1: eqrr,
+        2: borr,
+        3: gtri,
+        4: addr,
+        5: seti,
+        6: muli,
+        7: bani,
+        8: banr,
+        9: gtrr,
+        10: setr,
+        11: gtir,
+        12: bori,
+        13: eqri,
+        14: eqir,
+        15: mulr,
     }
-    count_ops(samples, funcs, opers)
+    samples = read_input_a()
+    count = count_ops(samples, opcodes)
+    print('Part A: {} - No. of samples w/ >= 3 options'.format(count))
 
-    assert validate(samples, opers)
-
-    operations = []
-    with open('input_b.txt') as f:
-        for l in f:
-            operations.append([int(x) for x in l.split()])
-
-    execute(operations, opers)
+    operations = read_input_b()
+    reg_a = execute(operations, opcodes)
+    print('Part B: {} - The value in register 0'.format(reg_a))
 
 
 if __name__ == '__main__':
