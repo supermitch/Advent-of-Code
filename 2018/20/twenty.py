@@ -1,28 +1,21 @@
 #!/usr/bin/env python
-from itertools import takewhile
-
-def extract(data):
-    return list(takewhile(lambda x: x not in '(|)', data))
-
-
-def make_map(start, grid, seq):
+def add_map_step(start, grid, step):
     x, y = start
-    for c in seq:
-        dx, dy = {
-            'N': (-1, 0),
-            'E': (0, 1),
-            'S': (1, 0),
-            'W': (0, -1),
-        }[c]
-        x, y = x + dx, y + dy
-        if c in 'EW':
-            door = '|'
-        else:
-            door = '-'
-        grid[(x, y)] = door
-        x, y = x + dx, y + dy
-        grid[(x, y)] = '.'
-    return x, y
+    dx, dy = {
+        'N': (-1, 0),
+        'E': (0, 1),
+        'S': (1, 0),
+        'W': (0, -1),
+    }[step]
+    x, y = x + dx, y + dy
+    if step in 'EW':
+        door = '|'
+    else:
+        door = '-'
+    grid[(x, y)] = door
+    x, y = x + dx, y + dy
+    grid[(x, y)] = '.'
+    return (x, y), grid
 
 
 def draw(grid):
@@ -40,27 +33,67 @@ def draw(grid):
         print(line)
 
 
+def extract_options(data):
+    options = []
+    left = 0
+    leg = []
+    for c in data:
+        if c == '(':
+            left += 1
+        elif c == ')':
+            left -= 1
+        elif c == '|':
+            if left == 0:
+                options.append(leg)
+                leg = []
+                continue
+        leg.append(c)
+    if leg:
+        options.append(leg)
+    return options
+
+
+def extract_path(data):
+    new = []
+    left = 1
+    for c in data[1:]:
+        if c == '(':
+            left += 1
+        elif c == ')':
+            left -= 1
+            if left == 0:
+                new_data = ''.join(new)
+                print('new data', new_data, data[len(new_data) + 2:])
+                return ''.join(new), data[len(new_data) + 2:]
+        new.append(c)
+    raise ValueError('Did not found matching bracket')
+
+
 def main():
     with open('input.txt') as f:
         data = f.readline().strip()[1:-1]
 
-    data = 'ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN'
+    data = 'ENWWW(NEEE|SSE(EE|N)|W)'
+    # data = 'ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN'
     coord = (0, 0)
     grid = {coord: 'X'}
 
-    graph = {data[0]: []}
-
-    while data:
-        seq = extract(data)
-        end = make_map(coord, grid, seq)
-        draw(grid)
-        data = data[len(seq):]
-        print(data)
-
-    for c in data:
-        if node in 'NESW':
+    graph = [((0,0), data)]
+    while graph:
+        coord, data = graph.pop()
+        while data:
+            print(coord, data)
+            draw(grid)
+            step = data[0]
+            if step == '(':
+                leg, data = extract_path(data)
+                for option in extract_options(leg):
+                    graph.append((coord, option))
+                print('graph:', graph)
+            else:
+                coord, grid = add_map_step(coord, grid, step)
+                data = data[1:]
 
 
 if __name__ == '__main__':
     main()
-
