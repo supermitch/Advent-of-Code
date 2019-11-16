@@ -33,41 +33,29 @@ def generate_grid(data, xmax, ymax):
 
 def is_bounded(grid, xi, y):
     """ Is a floor bounded on both sides by walls? Return bounded coords. """
-    assert grid[y + 1][xi] in '~#'
     coords = []
-    x = xi
-    while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
-        coords.append((x, y))
-        x += 1
-    if grid[y][x] not in '~#':
-        return False
-    x = xi
-    while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
-        coords.append((x, y))
-        x -= 1
-    if grid[y][x] not in '~#':
-        return False
+    for dx in (1, -1):
+        x = xi
+        while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
+            coords.append((x, y))
+            x += dx
+        if grid[y][x] not in '~#':
+            return False
     for x, y in coords:
-        grid[y][x] = '~'
+        grid[y][x] = '~'  # Flood the area
     return True
 
 
 def flow_grid(grid, xi, y):
-    x = xi
     new_drops = []
-    while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
-        grid[y][x] = '|'
-        x += 1
-    if grid[y][x] not in '~#':
-        grid[y][x] = '|'
-        new_drops.append((x, y))
-    x = xi
-    while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
-        grid[y][x] = '|'
-        x -= 1
-    if grid[y][x] not in '~#':
-        grid[y][x] = '|'
-        new_drops.append((x, y))
+    for dx in (1, -1):
+        x = xi
+        while grid[y + 1][x] in '~#' and grid[y][x] not in '~#':
+            grid[y][x] = '|'
+            x += dx
+        if grid[y][x] not in '~#':
+            grid[y][x] = '|'
+            new_drops.append((x, y))
     return new_drops
 
 
