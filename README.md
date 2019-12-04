@@ -1,11 +1,11 @@
 Advent of Code
 ==============
 
-🎄 My [Advent of Code](http://adventofcode.com/) solutions.
+My [Advent of Code](http://adventofcode.com/) solutions. 🎄 
 
 **![Python](/images/python.png) Python**
 * https://www.python.org/
-* Scripts were written in Python 3.6.3
+* Scripts were written in Python 3.6+
 * Run with `python <day>.py`
 
 **![D](/images/d.png) D**
