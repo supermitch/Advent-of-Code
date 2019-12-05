@@ -1,23 +1,18 @@
 #!/usr/bin/env python
 
 
-def get_params(data):
-    inst = str(data)
-    op = int(inst[-2:])
-    param_a = inst[-3:-2]
-    param_a = int(param_a) if param_a else 0
-    param_b = inst[-4:-3]
-    param_b = int(param_b) if param_b else 0
-    param_c = inst[-5:-4]
-    param_c = int(param_c) if param_c else 0
-    return op, param_a, param_b, param_c
+def parse_opcode(param):
+    param = str(param).zfill(5)  # 0 padded
+    op = int(param[-2:])
+    modes = [int(x) for x in list(param[:-2])]
+    return op, modes
 
 
 def compute(data, in_value):
         i = 0
         output = []
         while True:
-            op, mode_a, mode_b, mode_c = get_params(data[i])
+            op, (_, mode_b, mode_a) = parse_opcode(data[i])
 
             if op == 1:  # Add
                 a, b, c = data[i + 1: i + 4]
