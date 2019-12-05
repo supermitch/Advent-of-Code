@@ -6,13 +6,17 @@ http://adventofcode.com/2019 - Santa has become stranded at the end of the Solar
    * Calculate the sum of fuel requirements
    * Calculate fueling requirement given that fuel itself has mass
 2. [1202 Program Alarm](http://adventofcode.com/2019/day/2) - [![Python](/images/python.png)](02/two.py)
-   * Run an OpCode computer to deterine a register value
+   * Run an OpCode computer to determine a register value
    * Find out the initial noun & verb to achieve a specific result
 3. [Crossed Wires](http://adventofcode.com/2019/day/3) - [![Python](/images/python.png)](03/three.py)
    * Find the wire crossing nearest the origin
    * Find the wire crossing which is the shortest distance along both wires
-4. [TBD](http://adventofcode.com/2019/day/4) - [![Python](/images/python.png)](04/four.py)
-5. [TBD](http://adventofcode.com/2019/day/5) - [![Python](/images/python.png)](05/five.py)
+4. [Secure Container](http://adventofcode.com/2019/day/4) - [![Python](/images/python.png)](04/four.py)
+   * Find all possible passwords that meet a set of predicates
+   * Repeat with a slightly more complex test
+5. [Sunny with a Chance of Asteroids](http://adventofcode.com/2019/day/5) - [![Python](/images/python.png)](05/five.py)
+   * Run an improved opcode computer from Day 2, with a given input
+   * Run a still more complex opcode computer with a different input
 6. [TBD](http://adventofcode.com/2019/day/6) - [![Python](/images/python.png)](06/six.py)
 7. [TBD](http://adventofcode.com/2019/day/7) - [![Python](/images/python.png)](07/seven.py)
 8. [TBD](http://adventofcode.com/2019/day/8) - [![Python](/images/python.png)](08/eight.py)
