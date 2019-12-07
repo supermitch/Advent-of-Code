@@ -17,8 +17,12 @@ http://adventofcode.com/2019 - Santa has become stranded at the end of the Solar
 5. [Sunny with a Chance of Asteroids](http://adventofcode.com/2019/day/5) - [![Python](/images/python.png)](05/five.py)
    * Run an improved opcode computer from Day 2, with a given input
    * Run a still more complex opcode computer with a different input
-6. [TBD](http://adventofcode.com/2019/day/6) - [![Python](/images/python.png)](06/six.py)
-7. [TBD](http://adventofcode.com/2019/day/7) - [![Python](/images/python.png)](07/seven.py)
+6. [Universal Orbit Map](http://adventofcode.com/2019/day/6) - [![Python](/images/python.png)](06/six.py)
+   * Find total number of direct & indirect orbits between objects
+   * Find how many jumps to get into the same orbit as Santa
+7. [Amplification Circuit](http://adventofcode.com/2019/day/7) - [![Python](/images/python.png)](07/seven.py)
+   * Run a chain of computers from Day 5 as amplifiers and get final signal
+   * Run the computers simultaneously in a feedback loop until they halt
 8. [TBD](http://adventofcode.com/2019/day/8) - [![Python](/images/python.png)](08/eight.py)
 9. [TBD](http://adventofcode.com/2019/day/9) - [![Python](/images/python.png)](09/nine.py)
 10. [TBD](http://adventofcode.com/2019/day/10) - [![Python](/images/python.png)](10/ten.py)
