@@ -72,27 +72,41 @@ class Computer:
                 return output
 
 
-def feedback_loop(compies):
-    output = 0
+def single_execution(computers):
+    src = 0
+    for compie in computers:
+        compie.inval = src
+        src = next(compie.output)
+    return src
+
+
+def feedback_loop(computers):
+    src = 0
     while True:
-        for compie in compies:
-            compie.inval = output
+        for compie in computers:
+            compie.inval = src
             try:
-                output = next(compie.output)
+                src = next(compie.output)
             except StopIteration:
-                return output
+                return src
 
 
 def main():
     with open('input.txt') as f:
         data = [int(x) for x in next(f).split(',')]
 
+    part_a = 0
+    for phases in itertools.permutations(range(5)):
+        computers = [Computer(data, phase) for phase in phases]
+        output = single_execution(computers)
+        part_a = max(output, part_a)
+    print(f'Part A: {part_a} - Max thruster signal')
+
     part_b = 0
     for phases in itertools.permutations(range(5, 10)):
-        compies = [Computer(data, phase) for phase in phases]
-        output = feedback_loop(compies)
+        computers = [Computer(data, phase) for phase in phases]
+        output = feedback_loop(computers)
         part_b = max(output, part_b)
-
     print(f'Part B: {part_b} - Max thruster signal w/ feedback loop')
 
 
