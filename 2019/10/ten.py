@@ -15,10 +15,8 @@ def read_input(path):
 
 
 def calc_angle(a, b):
-    ax, ay = a
-    bx, by = b
-    opp = ay - by
-    adj = bx - ax
+    opp = a[1] - b[1]
+    adj = b[0] - a[0]
     if adj == 0 and opp > 0:
         theta = 90
     elif adj == 0 and opp < 0:
@@ -32,11 +30,11 @@ def distance(a, b):
     return math.sqrt((abs(a[0] - b[0])**2) + (abs(a[1] - b[1])**2))
 
 
-def nearest(booms, x):
-    return sorted(booms, key=lambda b: distance(b, x))
+def nearest(targets, base):
+    return sorted(targets, key=lambda x: distance(base, x))
 
 
-def get_target_angles(base, data):
+def get_angle_targets(base, data):
     angles = collections.defaultdict(list)
     for b in data:
         if b == base:
@@ -47,7 +45,7 @@ def get_target_angles(base, data):
 
 
 def shoot_asteroids(base, data):
-    angles = get_target_angles(base, data)
+    angles = get_angle_targets(base, data)
 
     positions = collections.deque(sorted(angles, reverse=True))
     while positions[0] != 90:  # Align the laser
@@ -62,6 +60,7 @@ def shoot_asteroids(base, data):
         positions.rotate(-1)
     return asteroids
 
+
 def main():
     data = read_input('input.txt')
 
@@ -74,8 +73,6 @@ def main():
     asteroids = shoot_asteroids(base, data)
     x, y = asteroids[199]
     print(f'Part B: {x * 100 + y} - Code for 200th asteroid ({x}, {y})')
-
-
 
 
 if __name__ == '__main__':
