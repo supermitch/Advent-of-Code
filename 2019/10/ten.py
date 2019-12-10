@@ -17,12 +17,7 @@ def read_input(path):
 def calc_angle(a, b):
     opp = a[1] - b[1]
     adj = b[0] - a[0]
-    if adj == 0 and opp > 0:
-        theta = 90
-    elif adj == 0 and opp < 0:
-        theta = 270
-    else:
-        theta = math.degrees(math.atan2(opp, adj))
+    theta = math.degrees(math.atan2(opp, adj))
     return theta
 
 
