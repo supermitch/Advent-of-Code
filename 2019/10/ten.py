@@ -1,105 +1,79 @@
 #!/usr/bin/env python
-import itertools as it
-import collections as co
+from itertools import permutations
+import collections
 import math
-from pprint import pprint
+
 
 def read_input(path):
-    data = {}
+    data = []
     with open(path) as f:
-        for j, line in enumerate(f):
-            for i, char in enumerate(list(line.strip())):
+        for y, line in enumerate(f):
+            for x, char in enumerate(list(line.strip())):
                 if char == '#':
-                    data[(i, j)] = '#'
+                    data.append((x, y))
     return data
 
-def next_angle(theta, bangles):
-    if theta > 180:
-        for angle in bangles:
-            if angle < theta:
-                return angle
-        theta = 180
-    for angle in bangles:
-        if angle < theta:
-            return angle
 
-def dist(a, b):
+def calc_angle(a, b):
     ax, ay = a
     bx, by = b
-    return math.sqrt((abs(ax - bx)**2) + (abs(ay - by)**2))
+    opp = ay - by
+    adj = bx - ax
+    if adj == 0 and opp > 0:
+        theta = 90
+    elif adj == 0 and opp < 0:
+        theta = 270
+    else:
+        theta = math.degrees(math.atan2(opp, adj))
+    return theta
+
+
+def distance(a, b):
+    return math.sqrt((abs(a[0] - b[0])**2) + (abs(a[1] - b[1])**2))
+
 
 def nearest(booms, x):
-    return sorted(booms, key=lambda b: dist(b, x))
+    return sorted(booms, key=lambda b: distance(b, x))
 
-def main():
-    path = 'input.txt'
-    #path = 'test_a.txt'
-    #path = 'test_b.txt'
-    #
-    data = read_input(path)
 
-    angles = co.defaultdict(list)
-    for a, b in it.permutations(data.keys(), 2):
-        ax, ay = a
-        bx, by = b
-        opp = by - ay
-        adj = bx - ax
-        if adj == 0 and opp > 0:
-            theta = 90
-        elif adj == 0 and opp < 0:
-            theta = 270
-        else:
-            theta = math.degrees(math.atan2(opp, adj))
-        angles[a].append(theta)
-    maxi = 0
-    for k, v in angles.items():
-        print(k, len(set(v)))
-        maxi = max(maxi, len(set(v)))
-    print(maxi)
-
-    base = (19, 11)
-    # base = (8, 3)
-    # base = (11, 13)
-
-    bangles = co.defaultdict(list)
-    total = 0
-    for b in data.keys():
+def get_target_angles(base, data):
+    angles = collections.defaultdict(list)
+    for b in data:
         if b == base:
             continue
-        ax, ay = base
-        bx, by = b
-        opp = ay - by
-        adj = bx - ax
-        if adj == 0 and opp > 0:
-            theta = 90
-        elif adj == 0 and opp < 0:
-            theta = 270
-        else:
-            theta = math.degrees(math.atan2(opp, adj))
-        bangles[theta].append((bx, by))
-        total += 1
+        theta = calc_angle(base, b)
+        angles[theta].append(b)
+    return angles
 
-    keys = co.deque(sorted(bangles, reverse=True))
-    while keys[0] != 90:
-        keys.rotate()
 
-    theta = 90
-    asters = []
-    while True:
-        print(theta)
-        if theta in bangles:
-            if bangles[theta]:
-                booms = bangles[theta]
-                booms = nearest(booms, base)
-                asters.append(booms[0])
-                bangles[theta] = booms[1:]
-            keys.rotate(-1)
-            theta = keys[0]
-        if len(asters) == total:
-            break
-    print(asters)
+def shoot_asteroids(base, data):
+    angles = get_target_angles(base, data)
 
-    print(asters[199])
+    positions = collections.deque(sorted(angles, reverse=True))
+    while positions[0] != 90:  # Align the laser
+        positions.rotate()
+
+    asteroids = []
+    while len(asteroids) < len(data) - 1:
+        theta = positions[0]
+        if angles[theta]:
+            targets = nearest(angles[theta], base)
+            asteroids.append(targets.pop(0))
+        positions.rotate(-1)
+    return asteroids
+
+def main():
+    data = read_input('input.txt')
+
+    angles = collections.defaultdict(set)
+    for a, b in permutations(data, 2):
+        angles[a].add(calc_angle(a, b))
+    base, visible = sorted(angles.items(), key=lambda kv: len(kv[1]))[-1]
+    print(f'Part A: {len(visible)} - Max visible asteroids from base {base}')
+
+    asteroids = shoot_asteroids(base, data)
+    x, y = asteroids[199]
+    print(f'Part B: {x * 100 + y} - Code for 200th asteroid ({x}, {y})')
 
 
 
