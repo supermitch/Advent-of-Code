@@ -3,11 +3,11 @@ Advent of Code
 
 My [Advent of Code](http://adventofcode.com/) solutions. 🎄
 
-* [2019](2019/README.md) - 🚀 Santa is stranded in space
-* [2018](2018/README.md) - ⌛ Changing Santa's history
-* [2017](2017/README.md) - 🖨 Broken printer
-* [2016](2016/README.md) - 🛷 Stolen sleigh guidance system
-* [2015](2015/README.md) - ❄ Broken weather machine
+* 2019 🚀 [Santa is stranded in space](2019/README.md)
+* 2018 ⌛ [Changing Santa's history](2018/README.md)
+* 2017 🖨 [Broken printer](2017/README.md)
+* 2016 🛷 [Stolen sleigh guidance system](2016/README.md)
+* 2015 ❄ [Broken weather machine](2015/README.md)
 
 
 **Python**
