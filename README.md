@@ -3,6 +3,7 @@ Advent of Code
 
 My [Advent of Code](http://adventofcode.com/) solutions. 🎄
 
+* 2020 ️🏖️ [Tropical vacation](2020/README.md)
 * 2019 🚀 [Santa is stranded in space](2019/README.md)
 * 2018 ⌛ [Changing Santa's history](2018/README.md)
 * 2017 🖨 [Broken printer](2017/README.md)
