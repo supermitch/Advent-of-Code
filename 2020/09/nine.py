@@ -1,49 +1,35 @@
-def calc(data):
-    i = 0
-    acc = 0
-    seen = set()
-    while True:
-        if i in seen:
-            return 'loop', acc
-        else:
-            seen.add(i)
-        op, val = data[i]
-        if op == 'acc':
-            acc += val
-            i += 1
-        elif op == 'nop':
-            i += 1
-        elif op == 'jmp':
-            i += val
-        if i == len(data):  # Beyond last op
-            return 'exit', acc
+from itertools import permutations
 
 
 def main():
-    data = []
     with open('input.txt') as f:
-        for line in f:
-            parts = line.strip().split()
-            data.append((parts[0], int(parts[1])))
+        data = [int(x.strip()) for x in f]
 
-    _, part_a = calc(data)
-
-    for i in range(len(data)):
-        copy = data[:]
-        op, val = copy[i]
-        if op == 'nop':
-            copy[i] = 'jmp', val
-        elif op == 'jmp':
-            copy[i] = 'nop', val
-
-        code, val = calc(copy)
-        if code == 'exit':
-            part_b = val
+    LEN = 25
+    for i, num in enumerate(data[LEN:], start=LEN):
+        found = False
+        for a, b in permutations(data[i - LEN:i], 2):
+            if a + b == num:
+                found = True
+                break
+        if not found:
             break
 
-    print(f'Part A: {part_a} - Acc before infinite loop')
-    print(f'Part B: {part_b} - Acc before routine exits')
+    lo, hi = 0, 1
+    while True:
+        vals = data[lo: hi]
+        tot = sum(vals)
+        if tot == num:
+            break
+        elif tot > num:
+            lo += 1
+            hi = lo + 1
+        else:
+            hi += 1
+
+    print(f'Part A: {num}')
+    print(f'Part B: {min(vals) + max(vals)}')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
