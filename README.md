@@ -3,6 +3,9 @@ Advent of Code
 
 My [Advent of Code](http://adventofcode.com/) solutions.
 
+* 2024 ️TBD
+* 2023 ️☃️ [Restore snow operations](2023)
+* 2022 ️TBD
 * 2021 ️🦑 [Submarine key recovery](2021)
 * 2020 ️🏖️ [Tropical vacation](2020/README.md)
 * 2019 🚀 [Santa is stranded in space](2019/README.md)
