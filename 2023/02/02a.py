@@ -1,7 +1,6 @@
 with open('02_input.txt') as f:
     lines = [x.strip() for x in f]
 
-limit = {'red': 12, 'green': 13, 'blue': 14}
 
 games = {}
 for line in lines:
@@ -17,17 +16,18 @@ for line in lines:
             batch[colour] = count
         games[i].append(batch)
 
-ids = []
+limits = {'red': 12, 'green': 13, 'blue': 14}
+id_sum = 0
 for i, sets in games.items():
     possible = True
     for set in sets:
         for colour, count in set.items():
-            if count > limit[colour]:
+            if count > limits[colour]:
                 possible = False
     if possible:
-        ids.append(i)
+        id_sum += i
 
-print(f'Part a: {sum(ids)}')
+print(f'Part a: {id_sum}')
 
 powers = 0
 for i, sets in games.items():
