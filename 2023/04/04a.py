@@ -1,7 +1,7 @@
 import re
 from collections import defaultdict
 
-with open('04a_test.txt') as f:
+with open('04a_input.txt') as f:
     lines = [x.strip() for x in f]
 
 score = 0
@@ -19,12 +19,16 @@ for line in lines:
     cards[card_no] = 1
     matches[card_no] = wins
 
-for card_no in range(1, len(cards) + 1):
-    print(card_no)
-    for i in range(1, matches[card_no] + 1):
-        print(card_no + 1)
-        cards[card_no + 1] += 1
+print(f'Part a: {score} points')
 
-print(cards)
-print(f'Part a: {score}')
-print(f'Part b: {sum(x for x in cards.values())}')
+
+def add_wins(card_no: int, matches: dict[int, int], cards: dict[int, int]):
+    for i in range(1, matches[card_no] + 1):
+        cards[card_no + i] += 1
+        add_wins(card_no + i, matches, cards)
+
+
+for card_no in range(1, len(cards) + 1):
+    add_wins(card_no, matches, cards)
+
+print(f'Part b: {sum(x for x in cards.values())} scratchcards')
