@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 with open('03_input.txt') as f:
     lines = [x.strip() for x in f]
 
@@ -19,6 +21,7 @@ for y, line in enumerate(lines):
 
 
 valid = []
+stars = defaultdict(list)
 for num, coords in nums:
     added = False
     for x, y in coords:
@@ -31,9 +34,19 @@ for num, coords in nums:
                     or y2 < 0 or y2 >= len(lines)
                 ):
                     continue
-                if lines[y2][x2] not in '0123456789.':
+                char = lines[y2][x2]
+                if char not in '0123456789.':
+                    if char == '*' and not added:
+                        stars[(x2, y2)].append(num)
                     if not added:
                         valid.append(num)
                     added = True
 
 print(f'Part a: {sum(valid)}')
+
+ratios = 0
+for coords, nums in stars.items():
+    if len(nums) == 2:
+        ratios += (nums[0] * nums[1])
+
+print(f'Part b: {ratios}')
