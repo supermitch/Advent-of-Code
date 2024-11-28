@@ -13,7 +13,6 @@ with open('05_input.txt') as f:
 
 seed_path = {}
 for seed in seeds:
-    print(seed)
     seed_path[seed] = [seed]
     for name, ranges in maps.items():
         step_id = seed_path[seed][-1]
@@ -24,7 +23,6 @@ for seed in seeds:
                 break
         else:  # Isn't mapped
             out = step_id
-        print(name, out)
 
 lowest = inf
 for path in seed_path.values():
